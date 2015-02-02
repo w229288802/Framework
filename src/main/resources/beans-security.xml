@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+    <!-- http URL 过滤 
+    	custom-filter配置后需配置form-login或entry-point-ref
+    	流程
+	1）容器启动(MySecurityMetadataSource：loadResourceDefine加载系统资源与权限列表)
+	2）用户发出请求
+	3）过滤器拦截(MySecurityFilter:doFilter)
+	4）取得请求资源所需权限(MySecurityMetadataSource:getAttributes)
+	5）匹配用户拥有权限和请求权限(MyAccessDecisionManager:decide)
+	6）登录
+	7）验证并授权(MyUserDetailServiceImpl:loadUserByUsername)
+	8）重复4,5
+    -->
+	<security:http >
+		<security:intercept-url pattern="/index.jsp" filters="none"/>
+		<security:intercept-url pattern="/login.jsp" filters="none"/>
+		<!-- <security:intercept-url pattern="/**" access="ROLE_ADMIN"/> -->
+		<security:access-denied-handler ref="accessHandler" />
+		<security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="authFilter"/>
+		<!-- 
+			login-page 指定spring 认证登录页面
+		 -->
+		<security:form-login  login-page="/login.jsp"  default-target-url="/index.jsp"
+		authentication-failure-url="/status/authorization_failure.jsp"/>
+	</security:http>
+	
+	
+	<!-- 授权管理 -->
+	<security:authentication-manager alias="authenticationManager">
+		<!-- 授权提供者 -->
+		<security:authentication-provider user-service-ref="userDetialService">
+			<!-- 密码解析器 -->
+			<security:password-encoder hash="md5"/>
+		</security:authentication-provider>		
+	</security:authentication-manager>
+
+	<!-- 授权失败的处理类 -->	
+	<bean id="accessHandler" class="com.welge.framework.security.AccessDeniedHandlerImpl"></bean>
+	<!-- 授权提供者 检查用户名和密码 是否授权-->
+	<bean id="userDetialService" class="com.welge.framework.security.UserDetailServiceImpl"/>
+	<!-- 资源与权限对应关系 ，当前请求的URL需要哪些权限-->
+	<bean id="securityMetadataSource" class="com.welge.framework.security.SecurityMetadataSourceImpl"></bean>
+	<!-- 用户是否拥有所请求资源的权限 -->
+	<bean id="accessDecisionManager" class="com.welge.framework.security.AccessDecisionManagerImpl"></bean>
+	
+	
+	<bean id="authFilter" class="com.welge.framework.security.SecurityInterceptor">
+		<!-- 权限管理，获得当前登录用户权限 -->
+		<property name="authenticationManager" ref="authenticationManager"/>
+    	<!-- 资源与权限对应关系 ，当前请求的URL需要哪些权限-->
+    	<property name="securityMetadataSource" ref="securityMetadataSource" />
+		<!-- 用户是否拥有所请求资源的权限 -->
+    	<property name="accessDecisionManager" ref="accessDecisionManager" />
+	</bean>
+</beans>           
