@@ -30,7 +30,7 @@ public class SecurityMetadataSourceImpl implements FilterInvocationSecurityMetad
 				//resourceMap.put("/sys/user.jsp", configAttributes2);
 		}   
 		LogFactory.getLog(this.getClass()).info(resourceMap.get(requestUrl));
-		if(resourceMap.get(requestUrl)==null)return new HashSet<ConfigAttribute>();
+	//	if(resourceMap.get(requestUrl)==null)return new HashSet<ConfigAttribute>();
 		return resourceMap.get(requestUrl);
 	}
 

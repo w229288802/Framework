@@ -20,7 +20,7 @@
 	<security:http >
 		<security:intercept-url pattern="/index.jsp" filters="none"/>
 		<security:intercept-url pattern="/login.jsp" filters="none"/>
-		<!-- <security:intercept-url pattern="/**" access="ROLE_ADMIN"/> -->
+		<security:intercept-url pattern="/**" access="ROLE_ADMIN"/> 
 		<security:access-denied-handler ref="accessHandler" />
 		<security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="authFilter"/>
 		<!-- 
