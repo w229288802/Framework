@@ -1,4 +1,4 @@
-package com.welge.framework.web;
+package com.welge.framework.web.base;
 
 import java.lang.reflect.ParameterizedType;
 
