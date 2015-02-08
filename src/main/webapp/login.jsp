@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Spring 认证登录</title>
+<%@ include file="/common/common.jsp" %>
 </head>
 <body>
 	<span style="color:red"><%=session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION) %></span>
