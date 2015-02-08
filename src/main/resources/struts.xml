@@ -6,7 +6,7 @@
 	<!-- 配置struts2编码 -->
 	<constant name="struts.i18n.encoding" value="UTF-8" />
 	<!-- 配置struts2后缀名do-->
-	<constant name="struts.action.extension" value="action"/>
+	<constant name="struts.action.extension" value="web,action"/>
 	<!-- 配置struts2主题 -->
 	<constant name="struts.ui.theme" value="simple"/>
 	<!-- 配置struts2开发模式 -->

@@ -1,7 +1,6 @@
-package com.welge.framework.action;
+package com.welge.framework.web;
 
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
