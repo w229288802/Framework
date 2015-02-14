@@ -3,7 +3,7 @@
   <groupId>com.welge</groupId>
   <artifactId>framework</artifactId>
   <version>1.0</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   <name/>
   <description/>
  
@@ -39,7 +39,7 @@
 			<groupId>org.apache.directory.server</groupId>
 			<artifactId>apacheds-core</artifactId>
 			<version>1.5.5</version>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-ldap</artifactId>
@@ -197,17 +197,18 @@
 	
 	<!-- MAVEN的插件 -->
   <build>
-   <!--   <plugins>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-        </configuration>
-      </plugin>
-    </plugins>-->
+    <plugins>
+      		<plugin>
+			<artifactId>maven-war-plugin</artifactId>
+			</plugin>
+			
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+    </plugins>
   </build>
 </project>
