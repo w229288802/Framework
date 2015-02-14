@@ -1,9 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.welge</groupId>
   <artifactId>framework</artifactId>
   <version>1.0</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name/>
   <description/>
  
@@ -123,6 +123,11 @@
 		<!-- Struts2核心 -->
 		<dependency>
 			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-json-plugin</artifactId>
+			<version>2.3.15.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-core</artifactId>
 			<version>2.3.15.1</version>
 		</dependency>
@@ -139,35 +144,60 @@
 			<version>2.3.15.1</version>
 		</dependency>
 		<!-- Oracle驱动-->
-		<dependency>  
+		<dependency>   
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
-			<version>11.2.0.1.0</version>
+			<version>11</version>
 		</dependency>
-    
-    
+		<!-- DBCP数据源 -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<!-- 将对象写成JSON插件 -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+	
+	<!-- Sevelet标准的包 -->
     <dependency>
-      <groupId>org.apache.openejb</groupId>
-      <artifactId>javaee-api</artifactId>
-      <version>5.0-1</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.2</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet.jsp</groupId>
-      <artifactId>jsp-api</artifactId>
-      <version>2.1</version>
-      <scope>provided</scope>
-    </dependency> -->
-	</dependencies>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+		</dependency>
+ 	<!-- JSTL标签需要的包 -->   
 
+    
+    <dependency>
+		<groupId>taglibs</groupId>
+		<artifactId>standard</artifactId>
+		<version>1.1.2</version>
+	</dependency>
+		
+		
+		<!-- J2EE 5.0支持的JSP标准 -->
+	 	<!--  <dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version> 
+			<scope>provided</scope>
+		</dependency>--> 
+		 
+	 <!-- 	<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>5.0-1</version>
+			<scope>provided</scope>
+		</dependency>  -->
+	</dependencies>
+	
+	
+	<!-- MAVEN的插件 -->
   <build>
-    <plugins>
+   <!--   <plugins>
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
       </plugin>
@@ -178,6 +208,6 @@
           <target>1.5</target>
         </configuration>
       </plugin>
-    </plugins>
+    </plugins>-->
   </build>
 </project>

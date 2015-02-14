@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
+encoding//src/main/webapp/common/authorization_failure.jsp=UTF-8
+encoding//src/main/webapp/resources/widget/dwz=UTF-8
+encoding//src/main/webapp/resources/widget/dwz/demo_page1.html=UTF-8
 encoding/<project>=UTF-8
 separateDerivedEncodings=true

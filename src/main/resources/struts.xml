@@ -17,4 +17,37 @@
 	<constant name="struts.convention.package.locators" value="web,action"></constant>
 	
 	<constant name="struts.convention.action.name.separator" value="-"></constant>	
+	<!--配置使用了convention注解的默认父包  -->  
+    <constant name="struts.convention.default.parent.package" value="json-convention-default"/>  
+	
+	
+	<package name="json-convention-default" extends="convention-default">
+		<!-- JSON插件复制过来的 -->
+        <result-types>
+            <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+        </result-types>
+		<!-- JSON插件复制过来的 -->
+        <interceptors>
+            <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
+            <interceptor name="jsonValidation" class="org.apache.struts2.json.JSONValidationInterceptor"/>
+
+            <!-- Sample JSON validation stack -->
+            <interceptor-stack name="jsonValidationWorkflowStack">
+                <interceptor-ref name="basicStack"/>
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel</param>
+                </interceptor-ref>
+                <interceptor-ref name="jsonValidation"/>
+                <interceptor-ref name="workflow"/>
+            </interceptor-stack>
+
+        </interceptors>
+		<!-- 全局JSON 返回结果类型 -->
+		<global-results>
+      		<result name="json" type="json"></result>
+      	</global-results>
+    </package>
+	
+	
+
 </struts>

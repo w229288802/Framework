@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/data/jpa"
-	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
            http://www.springframework.org/schema/data/jpa
            http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
-</beans:beans>          
+           
+    <jpa:repositories base-package="com.welge.**.repository" repository-impl-postfix="Impl" 
+    entity-manager-factory-ref="entityManagerFactory" transaction-manager-ref="transactionManagerJpa"/>
+    
+    <!-- 数据源配置,使用应用内的DBCP数据库连接池 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<!-- Connection Info -->
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+
+		<!-- Connection Pooling Info -->
+		<property name="maxIdle" value="${dbcp.maxIdle}" />
+		<property name="maxActive" value="${dbcp.maxActive}" />
+		<property name="defaultAutoCommit" value="false" />
+		<property name="timeBetweenEvictionRunsMillis" value="3600000" />
+		<property name="minEvictableIdleTimeMillis" value="3600000" />
+	</bean>
+    
+    <bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="persistenceUnitName" value="spring-jpa" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="database" value="ORACLE" />
+				<property name="showSql" value="${hibernate.show_sql}" />
+				<property name="generateDdl" value="true" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="transactionManagerJpa" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+    
+</beans>          

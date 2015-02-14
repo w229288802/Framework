@@ -20,6 +20,8 @@
 	<security:http >
 		<security:intercept-url pattern="/index.jsp" filters="none"/>
 		<security:intercept-url pattern="/login.jsp" filters="none"/>
+		<security:intercept-url pattern="/resources/**" filters="none"/>
+		<security:intercept-url pattern="/common/**" filters="none"/>
 		<security:intercept-url pattern="/**" access="ROLE_ADMIN"/> 
 		<security:access-denied-handler ref="accessHandler" />
 		<security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="authFilter"/>
@@ -27,7 +29,7 @@
 			login-page 指定spring 认证登录页面
 		 -->
 		<security:form-login  login-page="/login.jsp"  default-target-url="/index.jsp"
-		authentication-failure-url="/status/authorization_failure.jsp"/>
+		authentication-failure-url="/common/authorization_failure.jsp"/>
 	</security:http>
 	
 	
