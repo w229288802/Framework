@@ -10,10 +10,10 @@ import com.opensymphony.xwork2.ActionContext;
 import com.welge.framework.vo.dwz.JsonTable;
 import com.welge.framework.web.BaseStrutsAction;
 import com.welge.framework.web.BaseStrutsActionPageable;
-import com.welge.sys.entity.SysDepartment;
+import com.welge.sys.entity.Department;
 import com.welge.sys.repository.SysDepartmentRepository;
 @Namespace("/sys/department")
-public class DepartmentAction extends BaseStrutsActionPageable<SysDepartment,String>{
+public class DepartmentAction extends BaseStrutsActionPageable<Department,String>{
 
 	private static final long serialVersionUID = 1L;
 	@Autowired
@@ -33,7 +33,7 @@ public class DepartmentAction extends BaseStrutsActionPageable<SysDepartment,Str
 		//System.out.println(this);
 		//SysDepartment one = sysDepartmentRepository.findOne("1");
 		////SysDepartment one = new SysDepartment();
-		List<SysDepartment> list = new ArrayList<SysDepartment>();
+		List<Department> list = new ArrayList<Department>();
 		if(getPageNum()==null||getPageNum()==1){
 			 list= sysDepartmentRepository.findAll();
 		}

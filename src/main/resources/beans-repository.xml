@@ -34,7 +34,7 @@
 		<property name="persistenceUnitName" value="spring-jpa" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="database" value="ORACLE" />
+				<property name="database" value="${jdbc.database}" />
 				<property name="showSql" value="${hibernate.show_sql}" />
 				<property name="generateDdl" value="true" />
 			</bean>

@@ -6,20 +6,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<link href="${base }/resources/widget/dwz/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
-<link href="${base }/resources/widget/dwz/themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
-<link href="${base }/resources/widget/dwz/themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
-
-<script src="${base }/resources/widget/dwz/js/jquery-1.7.2.js" type="text/javascript"></script>
-<script src="${base }/resources/widget/dwz/js/jquery.validate.min.js" type="text/javascript"></script>
-<script src="${base }/resources/widget/dwz/bin/dwz.min.js"  type="text/javascript"></script>
 
 <title>企业信息管理系统</title>
 <link rel="stylesheet" href="${base}/resources/widget/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-	<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.core-3.5.js"></script>
-	<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.excheck-3.5.js"></script>
-	<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.exedit-3.5.js"></script>
-	<script type="text/javascript" src="${base}/resources/app/menu/ztree.js"></script>
+<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.excheck-3.5.js"></script>
+<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.exedit-3.5.js"></script>
+<script type="text/javascript" src="${base}/resources/app/menu/ztree.js"></script>
 		
 
 </head>
@@ -48,25 +41,15 @@ $(function(){
 				alertMsg.error("<div>服务器出错了</div><hr/><div>出错信息:"+xhr.responseText+"</div>");
 			}else{
 				alertMsg.error("<div>Http状态: " + xhr.status + " " + xhr.statusText + "</div>" 
-				/* + "<div>设置: "+ajaxOptions + "</div>"
-				+ "<div>异常: "+thrownError + "</div>" */
 				+"<hr/>"
 				+ "<div>"+xhr.responseText+"</div>");
 			}
 		} else {
 			alert("Http status: " + xhr.status + " " + xhr.statusText + "\najaxOptions: " + ajaxOptions + "\nthrownError:"+thrownError + "\n" +xhr.responseText);
 		}
-	}
-});
-$(document).ready(function(){
-	var columns=[
-	        {field:'name'},
-	        {field:'description'}
-	        ];
-	$.fn.datagrid=function(columns,data){
-		
 	};
 });
+
 </script>
 
 <body scroll="no">

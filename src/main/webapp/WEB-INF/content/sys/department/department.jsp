@@ -31,6 +31,7 @@ var columns=[
 		 	$("#table1").jTable();
 		}
      });
+	alert('')
 	//$("#table1").datagrid(columns);
 </script>
 <%@ include file="/common/taglib.jsp" %>
