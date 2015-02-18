@@ -12,14 +12,13 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.util.ValueStack;
 
-public class BaseStrutsAction<T,ID extends Serializable> extends ActionSupport implements ModelDriven<T> {
+public  class BaseStrutsAction<T,ID extends Serializable> extends ActionSupport implements ModelDriven<T> {
 	//JSON格式返回类型
 	protected static final String JSON="json";
 	private Logger logger ;
 	public Logger getLogger() {
 		return logger;
 	}
-
 	private static final long serialVersionUID = 1L;
 	protected T entity;
 	private Class<T> entityClass;

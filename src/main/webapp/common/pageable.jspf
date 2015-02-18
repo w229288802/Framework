@@ -1,6 +1,6 @@
 	
 <div class="panelBar">
-	<form id="pagerForm" action="${base}/sys/department/sys-department.action" method="post">
+	<form id="pagerForm" action="${baseAction}.action" method="post">
 		<input type="hidden" name="pageNum" value="1" /><!--【必须】value=1可以写死-->
 		<input type="hidden" name="numPerPage" value="20" /><!--【可选】每页显示多少条-->
 		<input type="hidden" name="orderField" value="xxx" /><!--【可选】查询排序-->

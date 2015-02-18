@@ -12,4 +12,5 @@
 <c:set var="base" value="${pageContext.request.contextPath}"/>
 <script type="text/javascript">
 var ctx = "${base }";
+
 </script>

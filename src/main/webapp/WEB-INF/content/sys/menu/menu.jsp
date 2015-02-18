@@ -7,11 +7,8 @@
 <!--
 -->
 </style>
-<link rel="stylesheet" href="${base}/resources/widget/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.core-3.5.js"></script>
-<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.excheck-3.5.js"></script>
-<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.exedit-3.5.js"></script>
 <script type="text/javascript" src="${base}/resources/app/menu/ztree.js"></script>
+<script type="text/javascript" src="${base}/resources/core/jquery.aop.js"></script>
 <script type="text/javascript">
 var setting = {
 		view: {
@@ -55,6 +52,10 @@ var setting = {
 		{ id:33, pId:3, name:"叶子节点 3-3"}
 	];
 	function onClick(){
+		
+		$("#jbsxBox").loadUrl("${base}/sys/department/department.action", {}, function(){
+			$("#jbsxBox").find("[layoutH]").layoutH();
+		}); 
 	}
 	var log, className = "dark";
 	function beforeDrag(treeId, treeNodes) {
@@ -149,10 +150,11 @@ var setting = {
 		$("#edit").bind("click", edit);
 		$("#remove").bind("click", remove);
 		$("#clearChildren").bind("click", clearChildren);
+		jQuery.aop.after({target:jQuery.fn,method:'loadUrl'},function(){});
 	});
+	
 </script>
 <div class="pageContent" >
-				
 
 	<div class="panel" defH="40" >
 			<h1>病人基本信息</h1>

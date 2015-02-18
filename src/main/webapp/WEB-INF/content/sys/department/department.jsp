@@ -29,13 +29,12 @@ var columns=[
 		success:function(data){
 		 	$("#table1").table(columns,data);
 		 	$("#table1").jTable();
-		}
+		},
+		error:DWZ.ajaxError
      });
-	alert('')
-	//$("#table1").datagrid(columns);
 </script>
 <%@ include file="/common/taglib.jsp" %>
-
+<c:set var="baseAction" value="${base }/sys/department/department"></c:set>
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
@@ -49,6 +48,5 @@ var columns=[
 	<table id="table1" width="100%" layoutH="180">
 	</table>
 
-	
 	<%@ include file="/common/pageable.jspf" %>
 </div>

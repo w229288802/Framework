@@ -2,13 +2,46 @@ package com.welge.framework.web;
 
 import java.io.Serializable;
 
-public class BaseStrutsActionPageable<T,ID extends Serializable> extends BaseStrutsAction<T, ID>{
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 
-	private static final long serialVersionUID = 1L;
-	private Integer pageNum=1;
-	private Integer numPerPage;
-	private String orderField;
+import com.welge.framework.service.BaseService;
+
+public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extends BaseStrutsAction<T, ID>{
+	public static final Integer DEFAULT_PAGENUM=1;
+	public static final Integer DEFAULT_PERPAGENUM=10;
 	
+	private static final long serialVersionUID = 1L;
+	private Integer pageNum=DEFAULT_PAGENUM;
+	private Integer numPerPage=DEFAULT_PERPAGENUM;
+	private String orderField;
+	public Pageable getPageable(){
+		return new Pageable(){
+
+			@Override
+			public int getPageNumber() {
+				return 1;
+			}
+
+			@Override
+			public int getPageSize() {
+				// TODO Auto-generated method stub
+				return 10;
+			}
+
+			@Override
+			public int getOffset() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public Sort getSort() {
+				return new Sort(Direction.ASC,"id");
+			}};
+	}
+	public abstract BaseService<T, ID> getBaseService();
 	public Integer getPageNum() {
 		return pageNum;
 	}
