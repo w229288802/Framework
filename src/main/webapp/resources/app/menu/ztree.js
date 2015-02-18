@@ -49,7 +49,7 @@
 		}
 		function onClick(event, treeId, treeNode, clickFlag) {
 			//alert(treeNode.target);
-			navTab.openTab("navTab",ctx+"/sys/department/sys-department.action",{ title:'New Tab', fresh:false, data:{} });
+			navTab.openTab("navTab"+treeNode.id,ctx+"/sys/menu/menu.action",{ title:treeNode.name, fresh:false, data:{} });
 			$("#sys_department_tabs").tabs("add",{title: '新选项卡面板',href:treeNode.target});
 			//showLog("[ "+getTime()+" onClick ]&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "普通选中": (clickFlag===0 ? "<b>取消选中</b>" : "<b>追加选中</b>")) + ")");
 		}

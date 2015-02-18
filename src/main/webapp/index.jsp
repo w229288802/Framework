@@ -14,7 +14,7 @@
 <script src="${base }/resources/widget/dwz/js/jquery.validate.min.js" type="text/javascript"></script>
 <script src="${base }/resources/widget/dwz/bin/dwz.min.js"  type="text/javascript"></script>
 
-<title>Insert title here</title>
+<title>企业信息管理系统</title>
 <link rel="stylesheet" href="${base}/resources/widget/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 	<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.core-3.5.js"></script>
 	<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.excheck-3.5.js"></script>
