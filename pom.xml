@@ -22,7 +22,16 @@
 		<version>${spring.security.version}</version>
 		</dependency> -->
 
-
+<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.7.4</version>
+		</dependency>
+		<dependency> 
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.7.4</version>
+		</dependency>
 		<!-- Spring安全访问控制 -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -144,25 +153,15 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 		</dependency>
+		<!-- J2EE 5.0支持的JSP标准 -->
 		<!-- JSTL标签需要的包 -->
-
-
+         
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
-		</dependency>
-
-
-		<!-- J2EE 5.0支持的JSP标准 -->
-		<!-- 
-		<dependency> 
-		<groupId>javax.servlet.jsp</groupId>
-		<artifactId>jsp-api</artifactId> 
-		<version>2.1</version>
-		<scope>provided</scope>
 		</dependency> 
-		-->
+
 
 		<!-- <dependency>
 		<groupId>org.apache.openejb</groupId>

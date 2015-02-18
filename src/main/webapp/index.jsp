@@ -5,219 +5,134 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>这是首页</title>
 
-	<%-- <link rel="stylesheet" href="${basePath}/resources/widget/ztree/css/demo.css" type="text/css"> --%>
-	<link rel="stylesheet" href="${basePath}/resources/widget/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-	<script type="text/javascript" src="${basePath}/resources/widget/ztree/js/jquery.ztree.core-3.5.js"></script>
-	<script type="text/javascript" src="${basePath}/resources/widget/ztree/js/jquery.ztree.excheck-3.5.js"></script>
-	<script type="text/javascript" src="${basePath}/resources/widget/ztree/js/jquery.ztree.exedit-3.5.js"></script>
-	<SCRIPT type="text/javascript">
-		<!--
-		var setting = {
-			view: {
-				selectedMulti: false
-			},
-			edit: {
-				enable: true,
-				showRemoveBtn: false,
-				showRenameBtn: false
-			},
-			data: {
-				keep: {
-					parent:true,
-					leaf:true
-				},
-				simpleData: {
-					enable: true
-				}
-			},
-			callback: {
-				beforeDrag: beforeDrag,
-				beforeRemove: beforeRemove,
-				beforeRename: beforeRename,
-				onRemove: onRemove,
-				beforeClick:beforeClick,
-				onClick:onClick
-			}
-			
-		};
+<link href="${base }/resources/widget/dwz/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${base }/resources/widget/dwz/themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${base }/resources/widget/dwz/themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
 
-		var zNodes =[
-			{ id:1, pId:0, name:"父节点 1", open:true},
-			{ id:11, pId:1, name:"叶子节点 1-1",target:"${basePath}/resources/widget/ztree/css/zTreeStyle/zTreeStyle.css"},
-			{ id:12, pId:1, name:"叶子节点 1-2"},
-			{ id:13, pId:1, name:"叶子节点 1-3"},
-			{ id:2, pId:0, name:"父节点 2", open:true},
-			{ id:21, pId:2, name:"叶子节点 2-1"},
-			{ id:22, pId:2, name:"叶子节点 2-2"},
-			{ id:23, pId:2, name:"叶子节点 2-3"},
-			{ id:3, pId:0, name:"父节点 3", open:true},
-			{ id:31, pId:3, name:"叶子节点 3-1"},
-			{ id:32, pId:3, name:"叶子节点 3-2"},
-			{ id:33, pId:3, name:"叶子节点 3-3"}
-		];
-		var log, className = "dark";
-		function beforeClick(treeId, treeNode, clickFlag) {
-			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
-			return (treeNode.click != false);
-		}
-		function onClick(event, treeId, treeNode, clickFlag) {
-			alert(treeNode.target);
-			$("#sys_department_tabs").tabs("add",{title: '新选项卡面板',href:treeNode.target});
-			//showLog("[ "+getTime()+" onClick ]&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "普通选中": (clickFlag===0 ? "<b>取消选中</b>" : "<b>追加选中</b>")) + ")");
-		}
-		function beforeDrag(treeId, treeNodes) {
-			return false;
-		}
-		function beforeRemove(treeId, treeNode) {
-			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
-			return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
-		}
-		function onRemove(e, treeId, treeNode) {
-			showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
-		}
-		function beforeRename(treeId, treeNode, newName) {
-			if (newName.length == 0) {
-				alert("节点名称不能为空.");
-				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-				setTimeout(function(){zTree.editName(treeNode);}, 10);
-				return false;
-			}
-			return true;
-		}
-		function showLog(str) {
-			if (!log) log = $("#log");
-			log.append("<li class='"+className+"'>"+str+"</li>");
-			if(log.children("li").length > 8) {
-				log.get(0).removeChild(log.children("li")[0]);
-			}
-		}
-		function getTime() {
-			var now= new Date(),
-			h=now.getHours(),
-			m=now.getMinutes(),
-			s=now.getSeconds(),
-			ms=now.getMilliseconds();
-			return (h+":"+m+":"+s+ " " +ms);
-		}
+<script src="${base }/resources/widget/dwz/js/jquery-1.7.2.js" type="text/javascript"></script>
+<script src="${base }/resources/widget/dwz/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="${base }/resources/widget/dwz/bin/dwz.min.js"  type="text/javascript"></script>
 
-		var newCount = 1;
-		function add(e) {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-			isParent = e.data.isParent,
-			nodes = zTree.getSelectedNodes(),
-			treeNode = nodes[0];
-			if (treeNode) {
-				treeNode = zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, isParent:isParent, name:"new node" + (newCount++)});
-			} else {
-				treeNode = zTree.addNodes(null, {id:(100 + newCount), pId:0, isParent:isParent, name:"new node" + (newCount++)});
-			}
-			if (treeNode) {
-				zTree.editName(treeNode[0]);
-			} else {
-				alert("叶子节点被锁定，无法增加子节点");
-			}
-		};
-		function edit() {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-			nodes = zTree.getSelectedNodes(),
-			treeNode = nodes[0];
-			if (nodes.length == 0) {
-				alert("请先选择一个节点");
-				return;
-			}
-			zTree.editName(treeNode);
-		};
-		function remove(e) {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-			nodes = zTree.getSelectedNodes(),
-			treeNode = nodes[0];
-			if (nodes.length == 0) {
-				alert("请先选择一个节点");
-				return;
-			}
-			var callbackFlag = $("#callbackTrigger").attr("checked");
-			zTree.removeNode(treeNode, callbackFlag);
-		};
-		function clearChildren(e) {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-			nodes = zTree.getSelectedNodes(),
-			treeNode = nodes[0];
-			if (nodes.length == 0 || !nodes[0].isParent) {
-				alert("请先选择一个父节点");
-				return;
-			}
-			zTree.removeChildNodes(treeNode);
-		};
+<title>Insert title here</title>
+<link rel="stylesheet" href="${base}/resources/widget/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.core-3.5.js"></script>
+	<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.excheck-3.5.js"></script>
+	<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.exedit-3.5.js"></script>
+	<script type="text/javascript" src="${base}/resources/app/menu/ztree.js"></script>
 		
-		$(document).ready(function(){
-			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-			$("#addParent").bind("click", {isParent:true}, add);
-			$("#addLeaf").bind("click", {isParent:false}, add);
-			$("#edit").bind("click", edit);
-			$("#remove").bind("click", remove);
-			$("#clearChildren").bind("click", clearChildren);
-		});
-		//-->
-	</SCRIPT>
 
 </head>
-<body class="easyui-layout">
+<script type="text/javascript">
+$(function(){
+	DWZ.init("${base }/resources/widget/dwz/dwz.frag.xml", {
+		loginUrl:"login.html",
+		statusCode:{ok:200, error:300, timeout:301}, //【可选】
+		pageInfo:{pageNum:"pageNum", numPerPage:"numPerPage", orderField:"orderField", orderDirection:"orderDirection"}, //【可选】
+		keys: {statusCode:"statusCode", message:"message"}, //【可选】
+		ui:{hideMode:'offsets'}, //【可选】hideMode:navTab组件切换的隐藏方式，支持的值有’display’，’offsets’负数偏移位置的值，默认值为’display’
+		debug:false,	// 调试模式 【true|false】
+		callback:function(){
+			initEnv();
+			$("#themeList").theme({themeBase:"themes"});
+			
+		}
+	});
+	DWZ.ajaxError=function(xhr, ajaxOptions, thrownError){
+		if (alertMsg) {
+			if(xhr.status==0){
+				alertMsg.error("<div>世界上最遥远的距离就是没网</div>")
+			}else if(xhr.status==404){
+				alertMsg.error("<div>唉哟！没有找到页面！</div>")
+			}else if(xhr.status==500){
+				alertMsg.error("<div>服务器出错了</div><hr/><div>出错信息:"+xhr.responseText+"</div>");
+			}else{
+				alertMsg.error("<div>Http状态: " + xhr.status + " " + xhr.statusText + "</div>" 
+				/* + "<div>设置: "+ajaxOptions + "</div>"
+				+ "<div>异常: "+thrownError + "</div>" */
+				+"<hr/>"
+				+ "<div>"+xhr.responseText+"</div>");
+			}
+		} else {
+			alert("Http status: " + xhr.status + " " + xhr.statusText + "\najaxOptions: " + ajaxOptions + "\nthrownError:"+thrownError + "\n" +xhr.responseText);
+		}
+	}
+});
+$(document).ready(function(){
+	var columns=[
+	        {field:'name'},
+	        {field:'description'}
+	        ];
+	$.fn.datagrid=function(columns,data){
+		
+	};
+});
+</script>
 
-	<div data-options="region:'north',border:false" style="height:60px;padding:10px">north region</div>
-	<div data-options="region:'west',split:true,title:'系统菜单'" style="width:150px;">
-		<ul id="treeDemo" class="ztree"></ul>
+<body scroll="no">
+
+	<div id="layout">
+		<div id="header">
+			<div class="headerNav">
+				
+			</div>
+			
+		</div>
+
+		<div id="leftside">
+			<div id="sidebar_s">
+				<div class="collapse">
+					<div class="toggleCollapse"><div></div></div>
+				</div>
+			</div>
+			<div id="sidebar">
+				<div class="toggleCollapse"><h2>主菜单</h2><div>收缩</div></div>
+				<div class="accordion" fillSpace="sidebar">
+					<div class="accordionContent">
+					<ul id="treeDemo" class="ztree"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="container">
+			<div id="navTab" class="tabsPage">
+				<div class="tabsPageHeader">
+					<div class="tabsPageHeaderContent"><!-- 显示左右控制时添加 class="tabsPageHeaderMargin" -->
+						<ul class="navTab-tab">
+							<li tabid="main" class="main"><a href="javascript:;"><span><span class="home_icon">我的主页</span></span></a></li>
+						</ul>
+					</div>
+					<div class="tabsLeft">left</div><!-- 禁用只需要添加一个样式 class="tabsLeft tabsLeftDisabled" -->
+					<div class="tabsRight">right</div><!-- 禁用只需要添加一个样式 class="tabsRight tabsRightDisabled" -->
+					<div class="tabsMore">more</div>
+				</div>
+				<ul class="tabsMoreList">
+					<li><a href="javascript:;">我的主页</a></li>
+				</ul>
+				<div class="navTab-panel tabsPageContent layoutBox">
+					<div class="page unitBox">
+						<div class="accountInfo">
+							<div class="alertInfo">
+								<p><a href="https://code.csdn.net/dwzteam/dwz_jui/tree/master/doc" target="_blank" style="line-height:19px"><span>DWZ框架使用手册</span></a></p>
+								<p><a href="http://pan.baidu.com/s/18Bb8Z" target="_blank" style="line-height:19px">DWZ框架开发视频教材</a></p>
+							</div>
+							<div class="right">
+							<p>待办工作32项，消息212条</p>
+							<p>07月12日，星期二</p>
+							</div>
+							<p><span>DWZ富客户端框架 </span></p>
+							<p><a href="demo_page2.html" target="dialog">DWZ小组</a></p>
+						</div>
+						<div class="pageFormContent" layoutH="80" style="margin-right:230px">
+						<h2>标题</h2>
+						<p>内容</p>
+						</div>
+				</div>			
+			</div>
+		</div>
+
 	</div>
-	<!-- <div data-options="region:'east',split:true,collapsed:true,title:'East'" style="width:100px;padding:10px;">east region</div> -->
-	<!-- <div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;padding:10px;">south region</div> -->
-	<div id="sys_department_tabs" class="easyui-tabs" data-options="region:'center'">
-
-	  <div title="Tab1" style="padding:20px;display:none;">   
-        tab1    
-    </div>   
-    <div title="Tab2" data-options="closable:true" style="overflow:auto;padding:20px;display:none;">   
-        tab2    
-    </div>   
-    <div title="Tab3" data-options="iconCls:'icon-reload',closable:true" style="padding:20px;display:none;">   
-        tab3    
-    </div>  
-
-	<!-- <div class="right">
-		<ul class="info">
-			<li class="title"><h2>1、addNodes / editName / removeNode / removeChildNodes 方法操作说明</h2>
-				<ul class="list">
-				<li>利用 addNodes / editName / removeNode / removeChildNodes 方法也可以实现 增 / 删 / 改 节点的目的，这里简单演示使用方法</li>
-				<li>cancelEditName 方法仅仅是在节点进入名称编辑状态时有效，请在必要时使用，Demo 不进行此方法的演示</li>
-				<li class="highlight_red">利用 setting.data.keep.parent / leaf 属性 实现了父节点、叶子节点的状态锁定</li>
-				<li><p>对节点进行 增 / 删 / 改，试试看：<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="callbackTrigger" checked /> removeNode 方法是否触发 callback<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addParent" href="#" title="增加父节点" onclick="return false;">增加父节点</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addLeaf" href="#" title="增加叶子节点" onclick="return false;">增加叶子节点</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="edit" href="#" title="编辑名称" onclick="return false;">编辑名称</a> ]<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="remove" href="#" title="删除节点" onclick="return false;">删除节点</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="clearChildren" href="#" title="清空子节点" onclick="return false;">清空子节点</a> ]<br/>
-					remove log:<br/>
-					<ul id="log" class="log"></ul>
-				</li>
-				<li class="highlight_red">使用 zTreeObj.addNodes / cancelEditName / editName / removeNode / removeChildNodes 方法，详细请参见 API 文档中的相关内容</li>
-				</ul>
-			</li>
-			<li class="title"><h2>2、setting 配置信息说明</h2>
-				<ul class="list">
-				<li>同 "基本 增 / 删 / 改 节点"</li>
-				<li class="highlight_red">保持 父 / 叶子 节点状态，需要设置 setting.data.keep.parent / leaf 属性，详细请参见 API 文档中的相关内容</li>
-				</ul>
-			</li>
-			<li class="title"><h2>3、treeNode 节点数据说明</h2>
-				<ul class="list">
-				<li>同 "基本 增 / 删 / 改 节点"</li>
-				</ul>
-			</li>
-		</ul>
-	</div> -->
-</div>
+	<div id="footer">Copyright &copy; 2010 <a href="demo_page2.html" target="dialog">DWZ团队</a> 京ICP备05019125号-10</div>
+	</div>
 </body>
 </html>

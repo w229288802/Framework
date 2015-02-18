@@ -1,8 +1,8 @@
-package com.welge.framework.vo.easyui;
+package com.welge.framework.vo.dwz;
 
 import java.util.Collection;
 
-public class DataGrid {
+public class JsonTable{
 	private Collection<?> rows;
 	private Long totals;
 	public Long getTotals() {

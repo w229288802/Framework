@@ -6,7 +6,7 @@
 	<!-- 配置struts2编码 -->
 	<constant name="struts.i18n.encoding" value="UTF-8" />
 	<!-- 配置struts2后缀名do-->
-	<constant name="struts.action.extension" value="web,action"/>
+	<constant name="struts.action.extension" value="do,action"/>
 	<!-- 配置struts2主题 -->
 	<constant name="struts.ui.theme" value="simple"/>
 	<!-- 配置struts2开发模式 -->
@@ -18,11 +18,36 @@
 	
 	<constant name="struts.convention.action.name.separator" value="-"></constant>	
 	<!--配置使用了convention注解的默认父包  -->  
-    <constant name="struts.convention.default.parent.package" value="json-convention-default"/>  
+    <constant name="struts.convention.default.parent.package" value="mypackage"/>  
 	
 	
+	<package name="mypackage" extends="json-convention-default">
+	
+		<result-types>
+        	<result-type name="exception" class="com.welge.framework.result.ExceptionResult"></result-type>
+		</result-types>
+		<interceptors>
+			<interceptor name="errorInterceptor" class="com.welge.framework.interceptor.ExceptionHandlerInterceptor"></interceptor>
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="errorInterceptor"/>
+				<interceptor-ref name="exception"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+        <default-interceptor-ref name="mystack"></default-interceptor-ref>
+		<global-results>
+			<result name="exception" type="exception"></result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping result="json" exception="java.lang.NoSuchMethodException"></exception-mapping>
+		</global-exception-mappings>
+	</package>
+	
+	
+	
+	<!-- JSON插件复制过来的,不用修改 -->
 	<package name="json-convention-default" extends="convention-default">
-		<!-- JSON插件复制过来的 -->
         <result-types>
             <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
         </result-types>
@@ -30,7 +55,6 @@
         <interceptors>
             <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
             <interceptor name="jsonValidation" class="org.apache.struts2.json.JSONValidationInterceptor"/>
-
             <!-- Sample JSON validation stack -->
             <interceptor-stack name="jsonValidationWorkflowStack">
                 <interceptor-ref name="basicStack"/>
@@ -40,7 +64,6 @@
                 <interceptor-ref name="jsonValidation"/>
                 <interceptor-ref name="workflow"/>
             </interceptor-stack>
-
         </interceptors>
 		<!-- 全局JSON 返回结果类型 -->
 		<global-results>

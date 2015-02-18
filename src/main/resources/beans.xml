@@ -23,4 +23,16 @@
 			</list>
 		</property>
 	</bean>
+	<context:component-scan base-package="com.welge"></context:component-scan>
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	
+	<!-- 配置切面 -->
+	<aop:config>
+		<aop:aspect ref="actionAspect">
+			<aop:pointcut expression="execution(* com.welge.sys.web..*.*(..))" id="pointcutWeb"/>
+			<aop:after-throwing method="tho" pointcut-ref="pointcutWeb" throwing="ex"/>
+		</aop:aspect>
+	</aop:config>
+	<bean id="actionAspect" class="com.welge.framework.aspect.ActionExceptionAspect"/>
 </beans>

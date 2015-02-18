@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Spring 认证登录</title>
-
+<%@ include file="/common/common.jsp" %>
 </head>
 <script type="text/javascript">
 		if(window.document.parent!=undefined&&window.document.parent!=window.document){
@@ -14,13 +14,13 @@
 		}
 </script>
 <body>
-	<div class="panel">
+
+	
 	<span style="color:red"><%=session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION) %></span>
 	<form action="j_spring_security_check" method="post">
-   	账号：<input name="j_username"/>
-   	密码：<input name="j_password" type="password"/>
+   	账号：<input name="j_username"/><br/>
+   	密码：<input name="j_password" type="password"/><br/>
    	<input value="提交" type="submit"/>
    </form>
-	</div>
 </body>
 </html>
