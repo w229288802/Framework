@@ -8,6 +8,20 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
+	<!-- Spring字符编码 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<!-- 异常处理 -->
 	<filter>
 		<filter-name>exceptionHandlerFilter</filter-name>
 		<filter-class>com.welge.framework.filter.ExceptionHandlerFilter</filter-class>
@@ -16,6 +30,17 @@
 		<filter-name>exceptionHandlerFilter</filter-name>
 		<url-pattern>*.action</url-pattern>
 	</filter-mapping>
+		
+	<!-- Spring security 安全访问认证过滤 -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<!-- Struts2过滤器请求分发 -->
 	<filter>
 		<filter-name>struts2Filter</filter-name>
@@ -35,14 +60,5 @@
 		<param-value>classpath:applicationContext-*.xml;/WEB-INF/classes/beans*.xml</param-value>
 	</context-param>
 	
-	<!-- Spring security 安全访问认证过滤 -->
-	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
 
 </web-app>

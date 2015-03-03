@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,16 +24,38 @@ public  class BaseStrutsAction<T,ID extends Serializable> extends ActionSupport 
 		return logger;
 	}
 	private static final long serialVersionUID = 1L;
+	private static final String REQUEST_ACTIONPATH = "actionPath";
 	protected T entity;
 	private Class<T> entityClass;
 	
-	@SuppressWarnings("unchecked")
+	
 	public BaseStrutsAction(){
-		
+		//设置请求的Action路径到Request中
+		setActionPath();
+		//初始化实体类型和实体对象
+		initParameterizedType();
+		//实例化一个日志对象
+		logger = LoggerFactory.getLogger(getClass());
+	}
+	
+	/**
+	 * 设置请求的Action路径到Request中
+	 */
+	public void setActionPath(){
+		String requestURI = getRequest().getRequestURI();
+		getRequest().setAttribute(REQUEST_ACTIONPATH,requestURI.replaceAll("(!\\w*)?(.action|.do)", ""));
+	}
+	
+	
+	/**
+	 * 初始化实体类型和实体对象
+	 */
+	@SuppressWarnings("unchecked")
+	private void initParameterizedType(){
 		Type superClass= (Type) this.getClass().getGenericSuperclass();
 		if (superClass instanceof ParameterizedType) {  
-		  entityClass = (Class<T>) ((ParameterizedType) superClass)  
-                    .getActualTypeArguments()[0];  
+			  entityClass = (Class<T>) ((ParameterizedType) superClass)  
+	                    .getActualTypeArguments()[0];  
         } else if (((Class<?>) superClass).getGenericSuperclass() instanceof ParameterizedType) {  
         	//由CGLIB代理的代理类会继承基类，所以代理类的父类的父类才是BaseAction
         	entityClass = (Class<T>) ((ParameterizedType) ((Class<?>) superClass)  
@@ -38,8 +64,7 @@ public  class BaseStrutsAction<T,ID extends Serializable> extends ActionSupport 
         	entityClass = (Class<T>) ((ParameterizedType) ((Class<?>) ((Class<?>) superClass)  
                     .getGenericSuperclass()).getGenericSuperclass())  
                     .getActualTypeArguments()[0];  
-        }  
-		logger = LoggerFactory.getLogger(getClass());
+        } 
 		try {
 			entity = entityClass.newInstance();
 		} catch (InstantiationException e) {
@@ -48,17 +73,29 @@ public  class BaseStrutsAction<T,ID extends Serializable> extends ActionSupport 
 			e.printStackTrace();
 		}
 	}
-	public void pushStack(Object object){
+	
+	protected HttpServletResponse getResponse(){
+		return ServletActionContext.getResponse();
+	}
+	protected HttpServletRequest getRequest(){
+		return ServletActionContext.getRequest();
+	}
+	/**
+	 * 放入Struts栈顶
+	 * @param object
+	 */
+	protected void pushStack(Object object){
 		ActionContext.getContext().getValueStack().push(object);
 	}
-	public ValueStack getValueStack(){
+	/**
+	 * 得到Struts值栈
+	 * @return
+	 */
+	protected ValueStack getValueStack(){
 		return ActionContext.getContext().getValueStack();
 	}
 	@Override
 	public T getModel() {
 		return entity;
-	}
-	public void set_(String _){
-		
 	}
 }

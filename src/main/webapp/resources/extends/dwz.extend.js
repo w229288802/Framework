@@ -1,5 +1,6 @@
 DWZ.ajaxError=function(xhr, ajaxOptions, thrownError){
-		if($.trim($.pdialog.getCurrent().css("display"))=="none"){
+	
+		if($.pdialog.getCurrent()==null||$.trim($.pdialog.getCurrent().css("display"))=="none"){
 			navTab.closeCurrentTab();
 		}else{
 			$.pdialog.closeCurrent();
@@ -11,7 +12,10 @@ DWZ.ajaxError=function(xhr, ajaxOptions, thrownError){
 				alertMsg.error("<div>唉哟！没有找到页面！</div>");
 			}else if(xhr.status==501){
 				alertMsg.error("<div>服务器出错了</div><hr/><div>出错信息:"+xhr.responseText+"</div>");
-			}else{
+			}else if(xhr.status==502){
+				window.location=ctx+"/login.jsp";
+			}
+			else{
 				alertMsg.error("<div>Http状态: " + xhr.status + " " + xhr.statusText + "</div>" 
 				+"<hr/>"
 				+ "<div>"+xhr.responseText+"</div>");

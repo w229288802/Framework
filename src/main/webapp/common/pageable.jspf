@@ -1,4 +1,4 @@
-	
+<%@ include file="/common/taglib.jsp" %>	
 <div class="panelBar">
 	<form id="pagerForm" action="${baseAction}.action" method="post">
 		<input type="hidden" name="pageNum" value="1" /><!--【必须】value=1可以写死-->

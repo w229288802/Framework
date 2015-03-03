@@ -10,7 +10,7 @@
 	<!-- 配置struts2主题 -->
 	<constant name="struts.ui.theme" value="simple"/>
 	<!-- 配置struts2开发模式 -->
-	<constant name="struts.devMode" value="true"/>
+	<constant name="struts.devMode" value="false"/>
 	<!-- 配置struts自动重载xml文件 -->
 	<constant name="struts.configuration.xml.reload" value="true"/>
 	
@@ -21,11 +21,26 @@
     <constant name="struts.convention.default.parent.package" value="mypackage"/>  
 	
 	
-	<package name="mypackage" extends="json-convention-default">
 	
-		<result-types>
-        	<result-type name="exception" class="com.welge.framework.result.ExceptionResult"></result-type>
-		</result-types>
+	
+	<package name="mypackage" extends="json-convention-package">
+	
+		<interceptors>
+			<interceptor name="exceptionHandlerInterceptor" class="com.welge.framework.interceptor.ExceptionHandlerInterceptor"/>
+			<interceptor-stack name="my-stack">
+				<interceptor-ref name="exceptionHandlerInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"/>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="my-stack"></default-interceptor-ref>
+	</package>
+	
+	
+	
+	
+	<!-- JSON插件复制过来的,不用修改 -->
+	<package name="json-convention-package" extends="json-convention-default">
 		<interceptors>
 			<interceptor name="errorInterceptor" class="com.welge.framework.interceptor.ExceptionHandlerInterceptor"></interceptor>
 			<interceptor-stack name="mystack">
@@ -35,15 +50,7 @@
 			</interceptor-stack>
 		</interceptors>
         <default-interceptor-ref name="mystack"></default-interceptor-ref>
-		<global-results>
-			<result name="exception" type="exception"></result>
-		</global-results>
-		
-		<global-exception-mappings>
-			<exception-mapping result="json" exception="java.lang.NoSuchMethodException"></exception-mapping>
-		</global-exception-mappings>
 	</package>
-	
 	
 	
 	<!-- JSON插件复制过来的,不用修改 -->
@@ -70,7 +77,5 @@
       		<result name="json" type="json"></result>
       	</global-results>
     </package>
-	
-	
 
 </struts>

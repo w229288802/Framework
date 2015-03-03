@@ -1,21 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/common/common.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-
 <title>企业信息管理系统</title>
-<link rel="stylesheet" href="${base}/resources/widget/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.core-3.5.js"></script>
-<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.excheck-3.5.js"></script>
-<script type="text/javascript" src="${base}/resources/widget/ztree/js/jquery.ztree.exedit-3.5.js"></script>
-<script type="text/javascript" src="${base}/resources/app/menu/ztree.js"></script>
-		
 
+		
 </head>
+<%@ include file="/common/common.jsp" %>
+
 <script type="text/javascript">
 $(function(){
 	DWZ.init("${base }/resources/widget/dwz/dwz.frag.xml", {
@@ -31,27 +26,11 @@ $(function(){
 			
 		}
 	});
-	DWZ.ajaxError=function(xhr, ajaxOptions, thrownError){
-		if (alertMsg) {
-			if(xhr.status==0){
-				alertMsg.error("<div>世界上最遥远的距离就是没网</div>")
-			}else if(xhr.status==404){
-				alertMsg.error("<div>唉哟！没有找到页面！</div>")
-			}else if(xhr.status==500){
-				alertMsg.error("<div>服务器出错了</div><hr/><div>出错信息:"+xhr.responseText+"</div>");
-			}else{
-				alertMsg.error("<div>Http状态: " + xhr.status + " " + xhr.statusText + "</div>" 
-				+"<hr/>"
-				+ "<div>"+xhr.responseText+"</div>");
-			}
-		} else {
-			alert("Http status: " + xhr.status + " " + xhr.statusText + "\najaxOptions: " + ajaxOptions + "\nthrownError:"+thrownError + "\n" +xhr.responseText);
-		}
-	};
 });
 
 </script>
 
+<script type="text/javascript" src="${base}/resources/app/index/menu.js"></script>
 <body scroll="no">
 
 	<div id="layout">

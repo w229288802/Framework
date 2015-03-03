@@ -8,12 +8,15 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
+
+import com.welge.framework.utils.SecurityUtils;
 
 public class SecurityInterceptor extends AbstractSecurityInterceptor implements Filter{
 
@@ -53,7 +56,7 @@ public class SecurityInterceptor extends AbstractSecurityInterceptor implements 
 		FilterInvocation fi = new FilterInvocation(request, response, chain);
 		invoke(fi);
 	}
-	private void invoke(FilterInvocation fi) throws IOException, ServletException {
+	private void invoke(FilterInvocation fi) throws ServletException, IOException {
 		// object为FilterInvocation对象
 		//1.获取请求资源的权限
 		//执行Collection<ConfigAttribute> attributes = SecurityMetadataSource.getAttributes(object);
@@ -65,11 +68,12 @@ public class SecurityInterceptor extends AbstractSecurityInterceptor implements 
 		//用户拥有的权限
 		//2) GrantedAuthority
 		//Collection<GrantedAuthority> authenticated.getAuthorities()
-		System.out.println("用户请求被认证!!! ");
 		InterceptorStatusToken token = null;
 		
 		token = super.beforeInvocation(fi);
-		
+		if(SecurityUtils.getUsername().equals("anonymousUser")){
+			throw new ServletException("anonymousUser");
+		}
 		try {
 			fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
 		} finally {

@@ -2,11 +2,13 @@ package com.welge.framework.web;
 
 import java.io.Serializable;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
 import com.welge.framework.service.BaseService;
+import com.welge.framework.vo.dwz.JsonTable;
 
 public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extends BaseStrutsAction<T, ID>{
 	public static final Integer DEFAULT_PAGENUM=1;
@@ -16,6 +18,16 @@ public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extend
 	private Integer pageNum=DEFAULT_PAGENUM;
 	private Integer numPerPage=DEFAULT_PERPAGENUM;
 	private String orderField;
+	
+	public String listTable(){
+		JsonTable jsonTable = new JsonTable();
+		Page<T> page = getBaseService().findAll(getPageable());
+		jsonTable.setTotals(page.getTotalElements());
+		jsonTable.setRows(page.getContent());
+		pushStack(jsonTable);
+		return JSON;
+	}
+	
 	public Pageable getPageable(){
 		return new Pageable(){
 

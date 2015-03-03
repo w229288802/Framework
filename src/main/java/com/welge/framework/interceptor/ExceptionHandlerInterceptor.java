@@ -21,16 +21,6 @@ public class ExceptionHandlerInterceptor implements Interceptor{
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void destroy() {
-		
-	}
-
-	@Override
-	public void init() {
-		
-	}
-
-	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
 		String result = null;
 		try{
@@ -45,4 +35,12 @@ public class ExceptionHandlerInterceptor implements Interceptor{
 		return result;
 	}
 
+	@Override
+	public void destroy() {
+	}
+	
+	@Override
+	public void init() {
+		
+	}
 }

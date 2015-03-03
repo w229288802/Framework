@@ -39,10 +39,14 @@ public class ExceptionHandlerFilter implements Filter{
 			if(error_object instanceof Exception){
 				err = (Exception) error_object;
 			}
+			if(err!=null&&err.getMessage().endsWith("anonymousUser")){
+				((HttpServletResponse)response).setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+				return;
+			}
 			if(err!=null){
 				PrintWriter writer = response.getWriter();
 				response.setContentType("text/html");
-				((HttpServletResponse)response).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				((HttpServletResponse)response).setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
 				writer.print(((Exception)err).getMessage());
 				err.printStackTrace();
 			}

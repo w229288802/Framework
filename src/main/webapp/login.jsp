@@ -9,9 +9,10 @@
 
 </head>
 <script type="text/javascript">
-		if(window.document.parent!=undefined&&window.document.parent!=window.document){
+	
+		/* if(window.document.parent!=undefined&&window.document.parent!=window.document){
 			window.location="${base}/login.jsp";
-		}
+		} */
 </script>
 <body>
 	<div class="panel">

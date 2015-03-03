@@ -16,4 +16,8 @@ public abstract class BaseService<T,ID extends Serializable> {
 	public List<T> getListAll(Pageable pageable){
 		return getBaseRepository().findAll(pageable).getContent();
 	}
+	
+	public List<T> getListAll(){
+		return getBaseRepository().findAll();
+	}
 }
