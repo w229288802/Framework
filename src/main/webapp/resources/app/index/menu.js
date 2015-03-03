@@ -27,7 +27,6 @@ function onClick(event, treeId, treeNode, clickFlag) {
 
 $(document).ready(function(){
 	$().loadUrl(ctx+"/sys/menu/menu!listAjax.action",null,function(data){
-		alert(data)
 		$.each(data,function(){
 			this.pId=this.pid; 
 			if(this.pid==null||this.pid==""){
