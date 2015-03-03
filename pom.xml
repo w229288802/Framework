@@ -21,8 +21,18 @@
 		<artifactId>spring-security-ldap</artifactId> 
 		<version>${spring.security.version}</version>
 		</dependency> -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.11</version>
+		</dependency>
 
-<dependency>
+		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.7.4</version>

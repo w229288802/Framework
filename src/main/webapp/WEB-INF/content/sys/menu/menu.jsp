@@ -144,6 +144,9 @@ var setting = {
 	};
 	
 	$(document).ready(function(){
+		
+		
+		
 		$.fn.zTree.init($("#treeDemo2"), setting, zNodes);
 		$("#addParentNode").bind("click", {isParent:true}, add);
 		$("#addLeaf").bind("click", {isParent:false}, add);
