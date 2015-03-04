@@ -11,6 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import com.welge.framework.exception.NoLoginException;
 import com.welge.framework.utils.LogUtils;
 /**
  * 异常处理
@@ -39,15 +40,18 @@ public class ExceptionHandlerFilter implements Filter{
 			if(error_object instanceof Exception){
 				err = (Exception) error_object;
 			}
-			if(err!=null&&err.getMessage().endsWith("anonymousUser")){
+			//当前没有登录
+			if(err instanceof NoLoginException){
 				((HttpServletResponse)response).setStatus(HttpServletResponse.SC_BAD_GATEWAY);
 				return;
 			}
+			//当前发生异常
 			if(err!=null){
 				PrintWriter writer = response.getWriter();
-				response.setContentType("text/html");
+				response.setContentType("text/html;charset=UTF-8");
 				((HttpServletResponse)response).setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
-				writer.print(((Exception)err).getMessage());
+				String msg = err.getClass().getSimpleName()+":"+((Exception)err).getMessage();
+				writer.print(new String(msg.getBytes("utf8"),"ISO8859-1"));
 				err.printStackTrace();
 			}
 		}

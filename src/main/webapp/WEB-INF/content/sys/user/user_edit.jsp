@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <div class="pageContent">
-	<form method="post" onsubmit="return validateCallback(this,dialogAjaxDone);" class="pageForm required-validate" action="${actionPath}!saveWithResponse.action" >
+	<form method="post" onsubmit="return validateCallback(this,dialogAjaxDone);" class="pageForm required-validate" action="${actionPath}!save.action" >
 		<input name="id" type="hidden"  value="${id }" />
 		<div class="pageFormContent" layoutH="56">
 			 <p>
@@ -19,7 +19,7 @@
 			<p>
 				<label>类型：</label>
 				<%-- <input name="type" class="required" value="${type }" type="text" size="30"  /> --%>
-				<select  class="required combox" size="30">
+				<select  class="required combox" >
 					<option value="A">激活</option>
 					<option value="B">停用</option>
 				</select>

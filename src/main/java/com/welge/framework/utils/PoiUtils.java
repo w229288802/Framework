@@ -18,7 +18,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.welge.framework.exception.ServiceException;
+import com.welge.framework.exception.AppcationException;
 
 public class PoiUtils  {
 	public enum ExcelType{
@@ -55,7 +55,7 @@ public class PoiUtils  {
 			try{
 				cla.getDeclaredField(field);
 			}catch (NoSuchFieldException e) {
-				throw new ServiceException(cla.getName()+"没有[ "+field+" ]这个字段");
+				throw new AppcationException(cla.getName()+"没有[ "+field+" ]这个字段");
 			}
 			String name = entry.getValue();
 			Cell headCell = headRow.createCell(i);

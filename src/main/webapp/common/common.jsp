@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="${base}/resources/widget/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 
 <!-- 自已的静态文件 -->
-<script src="${base }/resources/extends/dwz.extend.js" type="text/javascript"></script>
-<script src="${base }/resources/extends/frame.extend.js" type="text/javascript"></script>
+<script src="${base }/resources/extend/dwz.extend.js" type="text/javascript"></script>
+<script src="${base }/resources/extend/frame.extend.js" type="text/javascript"></script>
 
 

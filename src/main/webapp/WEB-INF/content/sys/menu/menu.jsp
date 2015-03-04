@@ -7,8 +7,6 @@
 <!--
 -->
 </style>
-<script type="text/javascript" src="${base}/resources/app/menu/ztree.js"></script>
-<script type="text/javascript" src="${base}/resources/core/jquery.aop.js"></script>
 <script type="text/javascript">
 var setting = {
 		view: {
@@ -16,7 +14,7 @@ var setting = {
 		},
 		edit: {
 			enable: true,
-			showRemoveBtn: false,
+			showRemoveBtn: true,
 			showRenameBtn: false
 		},
 		data: {
@@ -145,15 +143,12 @@ var setting = {
 	
 	$(document).ready(function(){
 		
-		
-		
 		$.fn.zTree.init($("#treeDemo2"), setting, zNodes);
 		$("#addParentNode").bind("click", {isParent:true}, add);
 		$("#addLeaf").bind("click", {isParent:false}, add);
 		$("#edit").bind("click", edit);
 		$("#remove").bind("click", remove);
 		$("#clearChildren").bind("click", clearChildren);
-		jQuery.aop.after({target:jQuery.fn,method:'loadUrl'},function(){});
 	});
 	
 </script>

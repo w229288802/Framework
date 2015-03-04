@@ -1,56 +1,115 @@
 package com.welge.framework.web;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
+import com.welge.framework.exception.AppcationException;
 import com.welge.framework.service.BaseService;
+import com.welge.framework.utils.DBUtils;
+import com.welge.framework.utils.JPAUtils;
+import com.welge.framework.utils._PrintUtils;
+import com.welge.framework.vo.dwz.JsonResponse;
 import com.welge.framework.vo.dwz.JsonTable;
 
 public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extends BaseStrutsAction<T, ID>{
-	public static final Integer DEFAULT_PAGENUM=1;
-	public static final Integer DEFAULT_PERPAGENUM=10;
-	
 	private static final long serialVersionUID = 1L;
-	private Integer pageNum=DEFAULT_PAGENUM;
-	private Integer numPerPage=DEFAULT_PERPAGENUM;
-	private String orderField;
-	
+	//分页默认属性
+	public static final Integer DEFAULT_PAGENUM=1;
+	public static final Integer DEFAULT_NUMPERPAGE=10;
+	public static final String DEFAULT_ORDERFIELD="id";
+	public static final String DEFAULT_ORDERDIRECTION="asc";
+	//分页关键字段
+	private String orderDirection = DEFAULT_ORDERDIRECTION;
+	private Integer pageNum = DEFAULT_PAGENUM;
+	private Integer numPerPage = DEFAULT_NUMPERPAGE;
+	private String orderField = DEFAULT_ORDERFIELD;
+	/**
+	 * 返回JSON格式的table
+	 */
 	public String listTable(){
 		JsonTable jsonTable = new JsonTable();
-		Page<T> page = getBaseService().findAll(getPageable());
+		Page<T> page = getBaseService().getListPage(getPageable());
 		jsonTable.setTotals(page.getTotalElements());
 		jsonTable.setRows(page.getContent());
 		pushStack(jsonTable);
 		return JSON;
 	}
+	/**
+	 * 返回编辑页面
+	 */
+	public String edit(){
+		ID id = JPAUtils.getPrimaryKey(getModel());
+		if(id!=null){
+			T one = getBaseService().getOne(id);
+			pushStack(one);
+		}
+		return EDIT;
+	}
+	/**
+	 * 保存实体并返回响应
+	 * @return
+	 */
+	public String save(){
+		System.out.println(getModel());
+		T model = getModel();
+		String id = (String) JPAUtils.getPrimaryKey(getModel());
+		if(id==null||id instanceof String&&id.length()==0){
+			JPAUtils.setPrimaryKey(model, DBUtils.generateBeanID());
+		}
+		getBaseService().save(model);
+		_PrintUtils.println(model, 0);
+		JsonResponse jsonResponse = new JsonResponse();
+		jsonResponse.setCallbackType("closeCurrent");
+		jsonResponse.setMessage("保存成功");
+		jsonResponse.setStatusCode(200);
+		pushStack(jsonResponse);
+		return JSON;
+	}
 	
+	public void delete() throws Exception{
+		ID[] ids = getIds();
+		if(ids==null){
+			throw new AppcationException("请先选择");
+		}
+		ArrayList<T> arrayList = new ArrayList<T>();
+		T newInstance = null;
+		for(ID id:ids){
+			newInstance = entityClass.newInstance();
+			JPAUtils.setPrimaryKey(newInstance, id);
+			arrayList.add(newInstance);
+		}
+		getBaseService().delete(arrayList);
+	}
 	public Pageable getPageable(){
 		return new Pageable(){
 
 			@Override
 			public int getPageNumber() {
-				return 1;
+				return pageNum;
 			}
 
 			@Override
 			public int getPageSize() {
-				// TODO Auto-generated method stub
-				return 10;
+				return numPerPage;
 			}
 
 			@Override
 			public int getOffset() {
-				// TODO Auto-generated method stub
-				return 0;
+				return numPerPage*(pageNum-1);
 			}
 
 			@Override
 			public Sort getSort() {
-				return new Sort(Direction.ASC,"id");
+				if(StringUtils.isBlank(orderField)){
+					orderField = JPAUtils.getPrimaryFieldName(entityClass);
+				}
+				return new Sort(Direction.ASC,orderField);
 			}};
 	}
 	public abstract BaseService<T, ID> getBaseService();
@@ -60,7 +119,6 @@ public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extend
 	public void setPageNum(Integer pageNum) {
 		this.pageNum = pageNum;
 	}
-	public String orderDirection;
 	public Integer getNumPerPage() {
 		return numPerPage;
 	}

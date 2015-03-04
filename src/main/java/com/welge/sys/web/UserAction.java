@@ -19,17 +19,5 @@ public class UserAction extends BaseStrutsActionPageable<User, String>{
 	public BaseService<User, String> getBaseService() {
 		return userService;
 	}
-	/*@Override
-	public String listTable() throws Exception {
-		
-		commonService.getFieldValue();
-		return super.listTable();
-	}
-	@Override
-	public String edit() {
-		// TODO Auto-generated method stub
-		int i=1/0;
-		return super.edit();
-	}*/
 	
 }

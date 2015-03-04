@@ -1,5 +1,4 @@
 DWZ.ajaxError=function(xhr, ajaxOptions, thrownError){
-	
 		if($.pdialog.getCurrent()==null||$.trim($.pdialog.getCurrent().css("display"))=="none"){
 			navTab.closeCurrentTab();
 		}else{
@@ -9,7 +8,9 @@ DWZ.ajaxError=function(xhr, ajaxOptions, thrownError){
 			if(xhr.status==0){
 				alertMsg.error("<div>世界上最遥远的距离就是没网</div>");
 			}else if(xhr.status==404){
-				alertMsg.error("<div>唉哟！没有找到页面！</div>");
+				alertMsg.error("<div>唉哟,没有找到页面!!!</div>");
+			}else if(xhr.status==500){
+				alertMsg.error("<div>服务器出错了</div>");
 			}else if(xhr.status==501){
 				alertMsg.error("<div>服务器出错了</div><hr/><div>出错信息:"+xhr.responseText+"</div>");
 			}else if(xhr.status==502){

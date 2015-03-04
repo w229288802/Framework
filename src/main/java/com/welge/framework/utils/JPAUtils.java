@@ -31,6 +31,11 @@ public class JPAUtils {
 			}
 		}
 	}
+	/**
+	 * 得到类型主键的字段名，以{@link Id}为注解
+	 * @param clazz
+	 * @return
+	 */
 	public static String getPrimaryFieldName(Class<?> clazz){
 		for(Field field:clazz.getDeclaredFields()){
 			if(field.isAnnotationPresent(Id.class)){
@@ -43,12 +48,18 @@ public class JPAUtils {
 		}
 		return null;
 	}
-	public static Serializable getPrimaryKey(Object object){
+	/**
+	 * 得到类型的主键值，以{@link Id}为注解
+	 * @param object
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <ID extends Serializable> ID getPrimaryKey(Object object){
 		Class<? extends Object> clazz = object.getClass();
 		for(Field field:clazz.getDeclaredFields()){
 			if(field.isAnnotationPresent(Id.class)){
 				try {
-					return (Serializable) field.get(object);
+					return (ID) field.get(object);
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {

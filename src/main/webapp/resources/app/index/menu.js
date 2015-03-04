@@ -21,7 +21,9 @@ var setting = {
 	}
 };
 function onClick(event, treeId, treeNode, clickFlag) {
-	navTab.openTab(treeNode.name,ctx+treeNode.url,{title:treeNode.name, fresh:false, data:{} });
+	if($.trim(treeNode.url)!=""){
+		navTab.openTab(treeNode.name,ctx+treeNode.url,{title:treeNode.name, fresh:false, data:{} });
+	}
 	event.preventDefault();
 }
 

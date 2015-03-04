@@ -17,17 +17,18 @@ import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.util.ValueStack;
 
 public  class BaseStrutsAction<T,ID extends Serializable> extends ActionSupport implements ModelDriven<T> {
+	private static final long serialVersionUID = 1L;
 	//JSON格式返回类型
 	protected static final String JSON="json";
-	private Logger logger ;
-	public Logger getLogger() {
-		return logger;
-	}
-	private static final long serialVersionUID = 1L;
-	private static final String REQUEST_ACTIONPATH = "actionPath";
-	protected T entity;
-	private Class<T> entityClass;
+	//返回编辑页页
+	protected static final String EDIT="edit";
+	//当前Action的相对路径
+	protected static final String REQUEST_ACTIONPATH = "actionPath";
 	
+	protected ID[] ids ;
+	private Logger logger ;
+	protected T entity;
+	protected Class<T> entityClass;
 	
 	public BaseStrutsAction(){
 		//设置请求的Action路径到Request中
@@ -97,5 +98,15 @@ public  class BaseStrutsAction<T,ID extends Serializable> extends ActionSupport 
 	@Override
 	public T getModel() {
 		return entity;
+	}
+	public Logger getLogger() {
+		return logger;
+	}
+	public ID[] getIds() {
+		return ids;
+	}
+
+	public void setIds(ID[] ids) {
+		this.ids = ids;
 	}
 }

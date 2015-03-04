@@ -1,5 +1,6 @@
-var initTable = function(ctx,tableid,pageNum,numPerPage){
+var initTable = function(ctx,tableid,column,operation,pageNum,numPerPage){
 	var p = navTab.getCurrentPanel();
+	column.push(operation);
 	var input = $("input",p).serialize();
 	$().ajaxUrl({type:'POST',url:ctx+"!listTable.action",data:input,callback:function(data){
 	 	$("#"+tableid,p).table(data,columns,"ids","id");

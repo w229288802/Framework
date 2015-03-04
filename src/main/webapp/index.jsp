@@ -23,7 +23,6 @@ $(function(){
 		callback:function(){
 			initEnv();
 			$("#themeList").theme({themeBase:"themes"});
-			
 		}
 	});
 });

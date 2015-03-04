@@ -46,8 +46,7 @@ public class _PrintUtils {
 				p.println((Collection<?>)obj,null, fieldNames);
 			} else if(obj instanceof Map){
 				p.println((Map<?,?>)obj);
-			}
-			else{
+			}else{
 				p.println(obj,null,fieldNames);
 			}
 			System.out.println(p.sb);

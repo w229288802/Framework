@@ -16,6 +16,7 @@ import org.springframework.security.access.intercept.AbstractSecurityInterceptor
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
 
+import com.welge.framework.exception.NoLoginException;
 import com.welge.framework.utils.SecurityUtils;
 
 public class SecurityInterceptor extends AbstractSecurityInterceptor implements Filter{
@@ -72,7 +73,7 @@ public class SecurityInterceptor extends AbstractSecurityInterceptor implements 
 		
 		token = super.beforeInvocation(fi);
 		if(SecurityUtils.getUsername().equals("anonymousUser")){
-			throw new ServletException("anonymousUser");
+			throw new NoLoginException();
 		}
 		try {
 			fi.getChain().doFilter(fi.getRequest(), fi.getResponse());

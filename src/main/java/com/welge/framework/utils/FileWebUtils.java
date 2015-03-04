@@ -23,7 +23,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import com.welge.framework.exception.ServiceException;
+import com.welge.framework.exception.AppcationException;
 
 /** 
  * <p>Title: 处理文件上传下载的类</p> 
@@ -109,14 +109,14 @@ public class FileWebUtils {
                 /** 
                  * 文件大小超出限制 
                  */  
-                throw new ServiceException("文件大小超出限制");
+                throw new AppcationException("文件大小超出限制");
             }  
         }  
         /** 
          * 没有上传文件 
          */  
         if (fileList == null || fileList.size() == 0) {  
-        	throw new ServiceException("请选择文件");  
+        	throw new AppcationException("请选择文件");  
         }  
         /** 
          * 得到所有上传的文件 
