@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
 import com.welge.framework.exception.AppcationException;
+import com.welge.framework.exception.InvalidOperationException;
 import com.welge.framework.service.BaseService;
 import com.welge.framework.utils.DBUtils;
 import com.welge.framework.utils.JPAUtils;
@@ -67,7 +68,7 @@ public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extend
 		JsonResponse jsonResponse = new JsonResponse();
 		jsonResponse.setCallbackType("closeCurrent");
 		jsonResponse.setMessage("保存成功");
-		jsonResponse.setStatusCode(200);
+		jsonResponse.setStatusCode(300);
 		pushStack(jsonResponse);
 		return JSON;
 	}
@@ -75,7 +76,7 @@ public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extend
 	public void delete() throws Exception{
 		ID[] ids = getIds();
 		if(ids==null){
-			throw new AppcationException("请先选择");
+			throw new InvalidOperationException("请先选择要删除的数据");
 		}
 		ArrayList<T> arrayList = new ArrayList<T>();
 		T newInstance = null;

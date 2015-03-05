@@ -1,29 +1,86 @@
+//DWZ的状态statusCode: {ok:200, error:300, timeout:301}
+$.extend(DWZ.statusCode,{
+	invalidOperation:400
+});
+//处理DWZ的Ajax请求
+var handlerAjax=function(jsonResponse){
+	if (jsonResponse[DWZ.keys.statusCode]==DWZ.statusCode.invalidOperation){
+			alertMsg.warn(jsonResponse[DWZ.keys.message])
+			return false;
+	} 
+	return true;
+}
+$.fn.ajaxUrl=function(op){
+			var $this = $(this);
+
+			$this.trigger(DWZ.eventType.pageClear);
+			
+			$.ajax({
+				type: op.type || 'GET',
+				url: op.url,
+				data: op.data,
+				cache: false,
+				success: function(response){ 
+					var json = DWZ.jsonEval(response);
+					if(handlerAjax&&!handlerAjax(json)){
+						return;
+					}
+					if (json[DWZ.keys.statusCode]==DWZ.statusCode.error){
+						if (json[DWZ.keys.message]) alertMsg.error(json[DWZ.keys.message]);
+					} else {
+						$this.html(response).initUI();
+						if ($.isFunction(op.callback)) op.callback(response);
+					}
+					
+					if (json[DWZ.keys.statusCode]==DWZ.statusCode.timeout){
+						if ($.pdialog) $.pdialog.checkTimeout();
+						if (navTab) navTab.checkTimeout();
+	
+						alertMsg.error(json[DWZ.keys.message] || DWZ.msg("sessionTimout"), {okCall:function(){
+							DWZ.loadLogin();
+						}});
+					} 
+					
+				},
+				error: DWZ.ajaxError,
+				statusCode: {
+					503: function(xhr, ajaxOptions, thrownError) {
+						alert(DWZ.msg("statusCode_503") || thrownError);
+					}
+				}
+			});
+		},
 DWZ.ajaxError=function(xhr, ajaxOptions, thrownError){
-		if($.pdialog.getCurrent()==null||$.trim($.pdialog.getCurrent().css("display"))=="none"){
-			navTab.closeCurrentTab();
+	var noCloseCurrentPanel=false;//不关闭当前容器
+	if (alertMsg) {
+		if(xhr.status==0){
+			alertMsg.error("<div>世界上最遥远的距离就是没网</div>");
+		}else if(xhr.status==404){
+			alertMsg.error("<div>唉哟,没有找到页面!!!</div>");
+		}else if(xhr.status==406){
+			noCloseCurrentPanel=true;
+			alertMsg.error("<div>"+xhr.responseText+"</div>")
+		}else if(xhr.status==500){
+			alertMsg.error("<div>服务器出错了</div>");
+		}else if(xhr.status==501){
+			alertMsg.error("<div>服务器出错了</div><hr/><div>出错信息:"+xhr.responseText+"</div>");
+		}else if(xhr.status==502){
+			window.location=ctx+"/login.jsp";
 		}else{
-			$.pdialog.closeCurrent();
+			alertMsg.error("<div>Http状态: " + xhr.status + " " + xhr.statusText + "</div>" 
+			+"<hr/>"
+			+ "<div>"+xhr.responseText+"</div>");
 		}
-		if (alertMsg) {
-			if(xhr.status==0){
-				alertMsg.error("<div>世界上最遥远的距离就是没网</div>");
-			}else if(xhr.status==404){
-				alertMsg.error("<div>唉哟,没有找到页面!!!</div>");
-			}else if(xhr.status==500){
-				alertMsg.error("<div>服务器出错了</div>");
-			}else if(xhr.status==501){
-				alertMsg.error("<div>服务器出错了</div><hr/><div>出错信息:"+xhr.responseText+"</div>");
-			}else if(xhr.status==502){
-				window.location=ctx+"/login.jsp";
+		if(!noCloseCurrentPanel){
+			if($.pdialog.getCurrent()==null||$.trim($.pdialog.getCurrent().css("display"))=="none"){
+				navTab.closeCurrentTab();
+			}else{
+				$.pdialog.closeCurrent();
 			}
-			else{
-				alertMsg.error("<div>Http状态: " + xhr.status + " " + xhr.statusText + "</div>" 
-				+"<hr/>"
-				+ "<div>"+xhr.responseText+"</div>");
-			}
-		} else {
-			alert("Http status: " + xhr.status + " " + xhr.statusText + "\najaxOptions: " + ajaxOptions + "\nthrownError:"+thrownError + "\n" +xhr.responseText);
 		}
+	} else {
+		alert("Http status: " + xhr.status + " " + xhr.statusText + "\najaxOptions: " + ajaxOptions + "\nthrownError:"+thrownError + "\n" +xhr.responseText);
+	}
 };
 $.fn.table=function(data,columns,checkboxField,checkboxKey){
 		

@@ -11,8 +11,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
+import com.welge.framework.exception.DWZException;
 import com.welge.framework.exception.NoLoginException;
+import com.welge.framework.exception.InvalidOperationException;
 import com.welge.framework.utils.LogUtils;
+import com.welge.framework.vo.dwz.JsonResponse;
 /**
  * 异常处理
  * 1、设置HTTP状态为500，服务器内部错误
@@ -21,7 +26,11 @@ import com.welge.framework.utils.LogUtils;
  *
  */
 public class ExceptionHandlerFilter implements Filter{
+	public final Integer USER_OPERATION_EXCEPTION_HTTP_STATUS=210;
+	
 	public static final String  EXCEPTION = "ExceptionHandlerFilterxception";
+
+	private static final Integer DWZ_STATE_INVALID_OPERATION = 400;
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		LogUtils.debug("exception handler filter init");
@@ -36,23 +45,37 @@ public class ExceptionHandlerFilter implements Filter{
 		}catch (Exception e) {
 			err=e;
 		}finally{
+			//Struts的异常
 			Object error_object = request.getAttribute(ExceptionHandlerFilter.EXCEPTION);
 			if(error_object instanceof Exception){
 				err = (Exception) error_object;
 			}
-			//当前没有登录
-			if(err instanceof NoLoginException){
-				((HttpServletResponse)response).setStatus(HttpServletResponse.SC_BAD_GATEWAY);
-				return;
-			}
-			//当前发生异常
 			if(err!=null){
+				String msg = ""+((Exception)err).getMessage();
+				//当前没有登录
+				if(err instanceof NoLoginException){
+					((HttpServletResponse)response).setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+				}
+				//当前用户操作异常
+				else if(err instanceof InvalidOperationException){
+					JsonResponse jsonResponse = new JsonResponse();
+					jsonResponse.setCallbackType("closeCurrent");
+					jsonResponse.setMessage(msg);
+					jsonResponse.setStatusCode(DWZ_STATE_INVALID_OPERATION);
+					ObjectMapper mapper = new ObjectMapper();
+					msg = mapper.writeValueAsString(jsonResponse);
+				}
+				//其它异常
+				else {
+					((HttpServletResponse)response).setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+				}
+				//输出异常信息
 				PrintWriter writer = response.getWriter();
-				response.setContentType("text/html;charset=UTF-8");
-				((HttpServletResponse)response).setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
-				String msg = err.getClass().getSimpleName()+":"+((Exception)err).getMessage();
+				response.setContentType("text/html");
 				writer.print(new String(msg.getBytes("utf8"),"ISO8859-1"));
-				err.printStackTrace();
+				if(!(err instanceof DWZException )){
+					err.printStackTrace();
+				}
 			}
 		}
 	}
