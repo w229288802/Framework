@@ -2,7 +2,7 @@ package com.welge.framework.exception;
 
 /**
  * 没有登录异常
- * @author haha
+ * @author @c welge
  *
  */
 public class NoLoginException extends AppcationException{
