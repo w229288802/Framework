@@ -1,18 +1,24 @@
 //DWZ的状态statusCode: {ok:200, error:300, timeout:301}
 $.extend(DWZ.statusCode,{
-	invalidOperation:400,
-	noLogin:401
+	INVALID_OPERATION:400,
+	NO_LOGIN:401,
+	NOT_IMPLEMENT:402
 });
 //处理DWZ的Ajax请求
 var handlerAjax=function(jsonResponse){
 	//无效操作
-	if (jsonResponse[DWZ.keys.statusCode]==DWZ.statusCode.invalidOperation){
+	if (jsonResponse[DWZ.keys.statusCode]==DWZ.statusCode.INVALID_OPERATION){
 			alertMsg.warn(jsonResponse[DWZ.keys.message]);
 			return false;
 	}
 	//没有登录，或者操作
-	else if (jsonResponse[DWZ.keys.statusCode]==DWZ.statusCode.noLogin){
+	else if (jsonResponse[DWZ.keys.statusCode]==DWZ.statusCode.NO_LOGIN){
 		window.location=ctx+"/login.jsp";
+		return false;
+	}
+	//DWZ状态为40X的
+	else if(parseInt(jsonResponse[DWZ.keys.statusCode]/100)==4){
+		alertMsg.warn(jsonResponse[DWZ.keys.message]);
 		return false;
 	}else if (jsonResponse[DWZ.keys.statusCode]==DWZ.statusCode.error){
 		if (jsonResponse[DWZ.keys.message]) alertMsg.error("服务器出错了！请与管理员联系！");

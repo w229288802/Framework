@@ -14,7 +14,6 @@ $(document).ready(function(){
 });
 </script>
 <%@ include file="/common/taglib.jsp" %>
-<c:set var="baseAction" value="${base }/sys/department/department"></c:set>
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
@@ -22,7 +21,7 @@ $(document).ready(function(){
 			<li class="line">line</li>
 			<li><a class="delete"  onclick="deleteByIds('${actionPath}')" title="确定要删除吗?"><span>删除</span></a></li>
 			<li class="line">line</li>
-			<li><a class="icon" href="${actionPath }!exportExcel.action" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
+			<li><a class="icon" href="#" onclick="javascript:download_file('${actionPath }!exportExcel.action')" <%-- href="${actionPath }!exportExcel.action" target="dwzExport" --%> targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
 		</ul>
 	</div>
 	<table id="sys_user_table" width="100%" ></table>

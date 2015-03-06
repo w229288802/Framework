@@ -23,7 +23,7 @@ function download_file(url)
 	download_file.iframe.style.display = "none";
 } 
 
-var initTable = function(ctx,tableid,column,operation,pageNum,numPerPage){
+var initTable = function(ctx,tableid,column,operation,pageNum,numPerPage,panel){
 	var p = navTab.getCurrentPanel();
 	column.push(operation);
 	var input = $("input",p).serialize();
@@ -33,7 +33,7 @@ var initTable = function(ctx,tableid,column,operation,pageNum,numPerPage){
 	 	$(":checkbox.checkboxCtrl",p).checkbox();
 	 	//initUI();不能全部重新初始化，否则参数不对
 	 	$("a[target=dialog]",p).bindDialog();
-	 	$(".pagination",p).pagination({totalCount:data.totals,currentPage:pageNum,numPerPage:numPerPage});
+	 	$(".pagination",p).pagination({rel:panel,totalCount:data.totals,currentPage:pageNum,numPerPage:numPerPage});
 	 	$("#_totals",p).html(data.totals);
 	 	$("select[ns=pageable_select]",p).selectBox(numPerPage);
 	}});
@@ -58,3 +58,15 @@ var deleteByIds = function(ctx){
 		});
 	}});
 };
+
+/*var Pagination = function(opts) {
+		this.opts = $.extend({
+			targetType:"navTab",	// navTab, dialog
+			rel:"", //用于局部刷新div id号
+			totalCount:0,
+			numPerPage:10,
+			pageNumShown:10,
+			currentPage:1,
+			callback:function(){return false;}
+		}, opts);
+	}*/

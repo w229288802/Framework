@@ -35,22 +35,7 @@ var setting = {
 		}
 	};
 
-	var zNodes =[
-		{ id:1, pId:0, name:"父节点 1", open:true},
-		{ id:11, pId:1, name:"叶子节点 1-1"},
-		{ id:12, pId:1, name:"叶子节点 1-2"},
-		{ id:13, pId:1, name:"叶子节点 1-3"},
-		{ id:2, pId:0, name:"父节点 2", open:true},
-		{ id:21, pId:2, name:"叶子节点 2-1"},
-		{ id:22, pId:2, name:"叶子节点 2-2"},
-		{ id:23, pId:2, name:"叶子节点 2-3"},
-		{ id:3, pId:0, name:"父节点 3", open:true},
-		{ id:31, pId:3, name:"叶子节点 3-1"},
-		{ id:32, pId:3, name:"叶子节点 3-2"},
-		{ id:33, pId:3, name:"叶子节点 3-3"}
-	];
 	function onClick(){
-		
 		$("#jbsxBox").loadUrl("${base}/sys/department/department.action", {}, function(){
 			$("#jbsxBox").find("[layoutH]").layoutH();
 		}); 
@@ -142,21 +127,32 @@ var setting = {
 	};
 	
 	$(document).ready(function(){
-		
-		$.fn.zTree.init($("#treeDemo2"), setting, zNodes);
-		$("#addParentNode").bind("click", {isParent:true}, add);
-		$("#addLeaf").bind("click", {isParent:false}, add);
-		$("#edit").bind("click", edit);
-		$("#remove").bind("click", remove);
-		$("#clearChildren").bind("click", clearChildren);
+		$().ajaxUrl({
+			url:'${actionPath}!listAll.action',
+			callback:function(data){
+				$.each(data,function(){
+					this.pId=this.pid;
+					this.open=true;
+				});
+				$.fn.zTree.init($("#treeDemo2"), setting, data);
+				$("#addParentNode").bind("click", {isParent:true}, add);
+				$("#addLeaf").bind("click", {isParent:false}, add);
+				$("#edit").bind("click", edit);
+				$("#remove").bind("click", remove);
+				$("#clearChildren").bind("click", clearChildren);
+			}
+		});
 	});
 	
 </script>
 <div class="pageContent" >
 
 	<div class="panel" defH="40" >
-			<h1>病人基本信息</h1>
+			<h1>添加菜单</h1>
 			<div>
+				病人编号：<input type="text" name="patientNo" />
+				病人编号：<input type="text" name="patientNo" />
+				病人编号：<input type="text" name="patientNo" />
 				病人编号：<input type="text" name="patientNo" />
 				<ul class="rightTools">
 					<li><a id="addParentNode" class="button" href="#"><span>添加文件夹</span></a></li>

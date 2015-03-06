@@ -2,6 +2,7 @@ package com.welge.framework.web;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.formula.eval.NotImplementedException;
@@ -12,12 +13,14 @@ import org.springframework.data.domain.Sort.Direction;
 
 import com.welge.framework.exception.ApplicationException;
 import com.welge.framework.exception.dwz.InvalidOperationException;
+import com.welge.framework.exception.dwz.NotImplementException;
 import com.welge.framework.service.BaseService;
 import com.welge.framework.utils.DBUtils;
 import com.welge.framework.utils.JPAUtils;
 import com.welge.framework.utils._PrintUtils;
 import com.welge.framework.vo.dwz.JsonResponse;
 import com.welge.framework.vo.dwz.JsonTable;
+import com.welge.framework.vo.ztree.JsonZtree;
 
 public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extends BaseStrutsAction<T, ID>{
 	private static final long serialVersionUID = 1L;
@@ -40,6 +43,11 @@ public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extend
 		jsonTable.setTotals(page.getTotalElements());
 		jsonTable.setRows(page.getContent());
 		pushStack(jsonTable);
+		return JSON;
+	}
+	public String listAll(){
+		Page<T> page = getBaseService().getListPage(getPageable());
+		pushStack(page.getContent());
 		return JSON;
 	}
 	/**
@@ -69,12 +77,12 @@ public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extend
 		JsonResponse jsonResponse = new JsonResponse();
 		jsonResponse.setCallbackType("closeCurrent");
 		jsonResponse.setMessage("保存成功");
-		jsonResponse.setStatusCode(300);
+		jsonResponse.setStatusCode(200);
 		pushStack(jsonResponse);
 		return JSON;
 	}
 	public void exportExcel() throws Exception{
-		throw new NotImplementedException("暂无实现该功能");
+		throw new NotImplementException("暂无实现该功能");
 	}
 	public void delete() throws Exception{
 		ID[] ids = getIds();

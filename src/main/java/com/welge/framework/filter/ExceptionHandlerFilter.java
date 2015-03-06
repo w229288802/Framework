@@ -16,6 +16,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.welge.framework.exception.dwz.DWZException;
 import com.welge.framework.exception.dwz.InvalidOperationException;
 import com.welge.framework.exception.dwz.NoLoginException;
+import com.welge.framework.exception.dwz.NotImplementException;
 import com.welge.framework.utils.LogUtils;
 import com.welge.framework.vo.dwz.JsonResponse;
 /**
@@ -34,7 +35,10 @@ public class ExceptionHandlerFilter implements Filter{
 
 	private static final Integer DWZ_STATE_NOLOGIN = 401;
 
+	private static final Integer DWZ_STATE_NOT_IMPLEMENT = 402;
+
 	private static final Integer DWZ_STATE_ERROR = 300;
+	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		LogUtils.debug("exception handler filter init");
@@ -49,44 +53,43 @@ public class ExceptionHandlerFilter implements Filter{
 		}catch (Exception e) {
 			err=e;
 		}finally{
-			JsonResponse jsonResponse = new JsonResponse();
 			//Struts的异常
 			Object error_object = request.getAttribute(ExceptionHandlerFilter.EXCEPTION);
 			if(error_object instanceof Exception){
 				err = (Exception) error_object;
 			}
 			if(err!=null){
+				JsonResponse jsonResponse = new JsonResponse();
+				ObjectMapper mapper = new ObjectMapper();
 				response.setContentType("text/html");
-				String msg = ""+((Exception)err).getMessage();
-				//msg="<script>window.opener=null;window.open('','_self');alertMsg.info('a');window.close();</script>";
+				String msg =((Exception)err).getMessage()+"";
+				jsonResponse.setMessage(msg);
+				
 				//当前没有登录
 				if(err instanceof NoLoginException){
-					jsonResponse.setMessage(msg);
 					jsonResponse.setStatusCode(DWZ_STATE_NOLOGIN);
-					ObjectMapper mapper = new ObjectMapper();
-					msg = mapper.writeValueAsString(jsonResponse);
 				}
 				//当前用户操作异常
 				else if(err instanceof InvalidOperationException){
-					jsonResponse.setMessage(msg);
 					jsonResponse.setStatusCode(DWZ_STATE_INVALID_OPERATION);
-					ObjectMapper mapper = new ObjectMapper();
-					msg = mapper.writeValueAsString(jsonResponse);
 				}
 				//其它异常
-				else {
-					jsonResponse.setMessage(msg);
-					jsonResponse.setStatusCode(DWZ_STATE_ERROR);
-					ObjectMapper mapper = new ObjectMapper();
-					msg = mapper.writeValueAsString(jsonResponse);
-					//((HttpServletResponse)response).setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+				else if (err instanceof NotImplementException){
+					jsonResponse.setStatusCode(DWZ_STATE_NOT_IMPLEMENT);
 				}
+				else if(err instanceof DWZException){
+					jsonResponse.setStatusCode(DWZ_STATE_ERROR);
+				}
+				if(!(err instanceof DWZException )){
+					((HttpServletResponse)response).setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+					err.printStackTrace();
+				}else{
+					msg = mapper.writeValueAsString(jsonResponse);
+				}
+				
 				//输出异常信息
 				PrintWriter writer = response.getWriter();
 				writer.print(new String(msg.getBytes("utf8"),"ISO8859-1"));
-				if(!(err instanceof DWZException )){
-					err.printStackTrace();
-				}
 			}
 		}
 	}
