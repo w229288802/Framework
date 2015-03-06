@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.welge.framework.exception.DWZException;
-import com.welge.framework.exception.NoLoginException;
-import com.welge.framework.exception.InvalidOperationException;
+import com.welge.framework.exception.dwz.DWZException;
+import com.welge.framework.exception.dwz.InvalidOperationException;
+import com.welge.framework.exception.dwz.NoLoginException;
 import com.welge.framework.utils.LogUtils;
 import com.welge.framework.vo.dwz.JsonResponse;
 /**
@@ -31,6 +31,10 @@ public class ExceptionHandlerFilter implements Filter{
 	public static final String  EXCEPTION = "ExceptionHandlerFilterxception";
 
 	private static final Integer DWZ_STATE_INVALID_OPERATION = 400;
+
+	private static final Integer DWZ_STATE_NOLOGIN = 401;
+
+	private static final Integer DWZ_STATE_ERROR = 300;
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		LogUtils.debug("exception handler filter init");
@@ -45,21 +49,25 @@ public class ExceptionHandlerFilter implements Filter{
 		}catch (Exception e) {
 			err=e;
 		}finally{
+			JsonResponse jsonResponse = new JsonResponse();
 			//Struts的异常
 			Object error_object = request.getAttribute(ExceptionHandlerFilter.EXCEPTION);
 			if(error_object instanceof Exception){
 				err = (Exception) error_object;
 			}
 			if(err!=null){
+				response.setContentType("text/html");
 				String msg = ""+((Exception)err).getMessage();
+				//msg="<script>window.opener=null;window.open('','_self');alertMsg.info('a');window.close();</script>";
 				//当前没有登录
 				if(err instanceof NoLoginException){
-					((HttpServletResponse)response).setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+					jsonResponse.setMessage(msg);
+					jsonResponse.setStatusCode(DWZ_STATE_NOLOGIN);
+					ObjectMapper mapper = new ObjectMapper();
+					msg = mapper.writeValueAsString(jsonResponse);
 				}
 				//当前用户操作异常
 				else if(err instanceof InvalidOperationException){
-					JsonResponse jsonResponse = new JsonResponse();
-					jsonResponse.setCallbackType("closeCurrent");
 					jsonResponse.setMessage(msg);
 					jsonResponse.setStatusCode(DWZ_STATE_INVALID_OPERATION);
 					ObjectMapper mapper = new ObjectMapper();
@@ -67,11 +75,14 @@ public class ExceptionHandlerFilter implements Filter{
 				}
 				//其它异常
 				else {
-					((HttpServletResponse)response).setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+					jsonResponse.setMessage(msg);
+					jsonResponse.setStatusCode(DWZ_STATE_ERROR);
+					ObjectMapper mapper = new ObjectMapper();
+					msg = mapper.writeValueAsString(jsonResponse);
+					//((HttpServletResponse)response).setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
 				}
 				//输出异常信息
 				PrintWriter writer = response.getWriter();
-				response.setContentType("text/html");
 				writer.print(new String(msg.getBytes("utf8"),"ISO8859-1"));
 				if(!(err instanceof DWZException )){
 					err.printStackTrace();

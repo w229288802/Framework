@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.eval.NotImplementedException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.welge.framework.exception.AppcationException;
-import com.welge.framework.exception.InvalidOperationException;
+import com.welge.framework.exception.ApplicationException;
+import com.welge.framework.exception.dwz.InvalidOperationException;
 import com.welge.framework.service.BaseService;
 import com.welge.framework.utils.DBUtils;
 import com.welge.framework.utils.JPAUtils;
@@ -57,7 +58,7 @@ public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extend
 	 * @return
 	 */
 	public String save(){
-		System.out.println(getModel());
+		//System.out.println(getModel());
 		T model = getModel();
 		String id = (String) JPAUtils.getPrimaryKey(getModel());
 		if(id==null||id instanceof String&&id.length()==0){
@@ -72,7 +73,9 @@ public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extend
 		pushStack(jsonResponse);
 		return JSON;
 	}
-	
+	public void exportExcel() throws Exception{
+		throw new NotImplementedException("暂无实现该功能");
+	}
 	public void delete() throws Exception{
 		ID[] ids = getIds();
 		if(ids==null){

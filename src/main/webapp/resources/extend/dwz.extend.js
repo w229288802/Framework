@@ -1,13 +1,28 @@
 //DWZ的状态statusCode: {ok:200, error:300, timeout:301}
 $.extend(DWZ.statusCode,{
-	invalidOperation:400
+	invalidOperation:400,
+	noLogin:401
 });
 //处理DWZ的Ajax请求
 var handlerAjax=function(jsonResponse){
+	//无效操作
 	if (jsonResponse[DWZ.keys.statusCode]==DWZ.statusCode.invalidOperation){
-			alertMsg.warn(jsonResponse[DWZ.keys.message])
+			alertMsg.warn(jsonResponse[DWZ.keys.message]);
 			return false;
+	}
+	//没有登录，或者操作
+	else if (jsonResponse[DWZ.keys.statusCode]==DWZ.statusCode.noLogin){
+		window.location=ctx+"/login.jsp";
+		return false;
+	}else if (jsonResponse[DWZ.keys.statusCode]==DWZ.statusCode.error){
+		if (jsonResponse[DWZ.keys.message]) alertMsg.error("服务器出错了！请与管理员联系！");
+		if($.pdialog.getCurrent()==null||$.trim($.pdialog.getCurrent().css("display"))=="none"){
+			navTab.closeCurrentTab();
+		}else{
+			$.pdialog.closeCurrent();
+		}
 	} 
+					 
 	return true;
 }
 $.fn.ajaxUrl=function(op){
@@ -26,7 +41,7 @@ $.fn.ajaxUrl=function(op){
 						return;
 					}
 					if (json[DWZ.keys.statusCode]==DWZ.statusCode.error){
-						if (json[DWZ.keys.message]) alertMsg.error(json[DWZ.keys.message]);
+						//if (json[DWZ.keys.message]) alertMsg.error(json[DWZ.keys.message]);
 					} else {
 						$this.html(response).initUI();
 						if ($.isFunction(op.callback)) op.callback(response);

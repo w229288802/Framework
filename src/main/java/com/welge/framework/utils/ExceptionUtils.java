@@ -2,7 +2,7 @@ package com.welge.framework.utils;
 
 import org.springframework.dao.DataIntegrityViolationException;
 
-import com.welge.framework.exception.AppcationException;
+import com.welge.framework.exception.ApplicationException;
 
 public class ExceptionUtils {
 	public static Throwable handle(Throwable e){
@@ -14,7 +14,7 @@ public class ExceptionUtils {
 				Integer start = message.indexOf("'");
 				int end = message.lastIndexOf("'");
 				if(start!=null&&message.startsWith("Data truncation: Data too long for column ")){
-					return new AppcationException(message.substring(start+1,end)+"数据太长");
+					return new ApplicationException(message.substring(start+1,end)+"数据太长");
 				}
 			}
 		}

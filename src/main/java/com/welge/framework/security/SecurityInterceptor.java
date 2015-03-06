@@ -8,7 +8,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.SecurityMetadataSource;
@@ -16,7 +15,7 @@ import org.springframework.security.access.intercept.AbstractSecurityInterceptor
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
 
-import com.welge.framework.exception.NoLoginException;
+import com.welge.framework.exception.dwz.NoLoginException;
 import com.welge.framework.utils.SecurityUtils;
 
 public class SecurityInterceptor extends AbstractSecurityInterceptor implements Filter{

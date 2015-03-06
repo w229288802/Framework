@@ -1,4 +1,4 @@
-package com.welge.framework.exception;
+package com.welge.framework.exception.dwz;
 
 import javax.servlet.ServletException;
 

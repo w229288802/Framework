@@ -1,3 +1,28 @@
+/**
+ * 下载文件
+ */
+function download_file(url)
+{
+	if (typeof (download_file.iframe) == "undefined")
+	{
+		var iframe = document.createElement("iframe");
+		download_file.iframe = iframe;
+		document.body.appendChild(download_file.iframe);
+	}
+	download_file.iframe.src = url;
+	if (download_file.iframe.attachEvent){
+		download_file.iframe.attachEvent (function() {
+    		handlerAjax($.parseJSON(download_file.iframe.contentDocument.body.innerHTML));
+   		});
+	}else{
+		download_file.iframe.onload = function() {
+    		handlerAjax($.parseJSON(download_file.iframe.contentDocument.body.innerHTML));
+   		}
+	}
+	//document.body.removeChild(iframe);移除
+	download_file.iframe.style.display = "none";
+} 
+
 var initTable = function(ctx,tableid,column,operation,pageNum,numPerPage){
 	var p = navTab.getCurrentPanel();
 	column.push(operation);
