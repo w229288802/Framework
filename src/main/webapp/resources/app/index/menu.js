@@ -31,11 +31,10 @@ $(document).ready(function(){
 	$().loadUrl(ctx+"/sys/menu/menu!listAjax.action",null,function(data){
 		$.each(data,function(){
 			this.pId=this.pid; 
-			if(this.pid==null||this.pid==""){
-				this.open=true;
-			}
+			this.isParent=this.type=='F'?false:true;
+			this.open=this.type=='F'?false:true;
 		});
-		$.fn.zTree.init($("#treeDemo"), setting, data);
+		$.fn.zTree.init($("#index_tree"), setting, data);
 	});
 });
 	

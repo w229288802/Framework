@@ -14,6 +14,13 @@ public class Permission {
 	private String code;
 	private String pid;
 	private String url;
+	private String description;
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public String getUrl() {
 		return url;
 	}
@@ -50,12 +57,5 @@ public class Permission {
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public String getDecription() {
-		return decription;
-	}
-	public void setDecription(String decription) {
-		this.decription = decription;
-	}
-	private String decription;
 	
 }

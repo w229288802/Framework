@@ -50,7 +50,7 @@ $(function(){
 				<div class="toggleCollapse"><h2>主菜单</h2><div>收缩</div></div>
 				<div class="accordion" fillSpace="sidebar">
 					<div class="accordionContent">
-					<ul id="treeDemo" class="ztree"></ul>
+					<ul id="index_tree" class="ztree"></ul>
 					</div>
 				</div>
 			</div>
