@@ -22,6 +22,8 @@ public  class BaseStrutsAction<T,ID extends Serializable> extends ActionSupport 
 	protected static final String JSON="json";
 	//返回编辑页页
 	protected static final String EDIT="edit";
+	//返回主页
+	protected static final String MAIN="main";
 	//当前Action的相对路径
 	protected static final String REQUEST_ACTIONPATH = "actionPath";
 	

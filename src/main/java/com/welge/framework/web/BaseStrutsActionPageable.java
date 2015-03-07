@@ -142,6 +142,9 @@ public abstract class BaseStrutsActionPageable<T,ID extends Serializable> extend
 				return new Sort(Direction.ASC,orderField);
 			}};
 	}
+	public String main(){
+		return MAIN;
+	}
 	public abstract BaseService<T, ID> getBaseService();
 	public Integer getPageNum() {
 		return pageNum;
