@@ -69,12 +69,12 @@ $.fn.myTreeTable=function(op){
 var println=function(o){
 	for(var p in o){console.log(p + " : " + o[p]);} 
 }
-var initTable = function(ctx,tableid,column,operation,pageNum,numPerPage,panel){
-	var p = navTab.getCurrentPanel();
+var initTable = function(ctx,tableid,column,operation,pageNum,numPerPage,targetType){
+	var p = DWZ.getPanel();
 	if($.pdialog.getCurrent()==null||$.trim($.pdialog.getCurrent().css("display"))=="none"){
-		//	navTab.closeCurrentTab();
+		targetType ="navTab";
 	}else{
-		p=$.pdialog.getCurrent();
+		targetType="dialog";
 	}
 	column.push(operation);
 	var input = $("input",p).serialize();
@@ -84,7 +84,7 @@ var initTable = function(ctx,tableid,column,operation,pageNum,numPerPage,panel){
 	 	$(":checkbox.checkboxCtrl",p).dwzCheckbox();
 	 	//initUI();不能全部重新初始化，否则参数不对
 	 	$("a[target=dialog]",p).bindDialog();
-	 	$(".pagination",p).pagination({rel:panel,totalCount:data.totals,currentPage:pageNum,numPerPage:numPerPage});
+	 	$(".pagination",p).pagination({targetType:targetType,rel:'',totalCount:data.totals,currentPage:pageNum,numPerPage:numPerPage});
 	 	$("#_totals",p).html(data.totals);
 	 	$("select[ns=pageable_select]",p).selectBox(numPerPage);
 	}});

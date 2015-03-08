@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <div class="pageContent">
-	<form method="post" onsubmit="return validateCallback(this,dialogAjaxDone);" class="pageForm required-validate" action="${base }/sys/department/department!saveWithResponse.action" >
+	<form method="post" onsubmit="return validateCallback(this,dialogAjaxDone);" class="pageForm required-validate" action="${actionPath}!save.action" >
 		<input name="id" type="hidden"  value="${id }" />
 		<div class="pageFormContent" layoutH="56">
 			 <p>
 				<label>部门名称：</label>
-				<input name="username" type="text" size="30" value="${name }" class="required" />
+				<input name="name" type="text" size="30" value="${name }" class="required" />
 			</p>
 			<p>
 				<label>描述：</label>

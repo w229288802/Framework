@@ -20,7 +20,8 @@ $(document).ready(function(){
 	
 	$().ajaxUrl({type:'POST',url:"${actionPath}!listTable.action?id=${id}",callback:function(data){
 	 	$("#sys_menu_treetable").myTreeTable({data:data,columns:columns,ids:"ids",id:"id",pid:"pid"});
-		$("#sys_menu_treetable").treetable({ align:'center',expandable: true });
+		$("#sys_menu_treetable").treetable({ expandable: true });
+		$("#sys_menu_treetable").treetable("expandAll");
 		$(":checkbox.checkboxCtrl",DWZ.getPanel()).checkbox();
 	}});
 	

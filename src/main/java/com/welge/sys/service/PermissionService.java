@@ -36,7 +36,6 @@ public class PermissionService extends BaseService<Permission,String>{
 	}
 	
 	public List<Map<String, Object>> getListByRoleId(String roleId) {
-		System.out.println(roleId);
 		return permissionRepository.findByRoleId(roleId);
 	}
 

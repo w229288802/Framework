@@ -59,6 +59,7 @@ public class JPAUtils {
 		for(Field field:clazz.getDeclaredFields()){
 			if(field.isAnnotationPresent(Id.class)){
 				try {
+					field.setAccessible(true);
 					return (ID) field.get(object);
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
