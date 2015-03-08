@@ -17,7 +17,11 @@
 	</properties>
 
 	<dependencies>
-
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1</version>
+		</dependency>
 		<!-- <dependency> 
 		<groupId>org.springframework.security</groupId>
 		<artifactId>spring-security-ldap</artifactId> 
@@ -142,10 +146,10 @@
 		</dependency>
 		<!-- Oracle驱动 -->
 		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>myojdbc6</artifactId>
+			<groupId>com.welge</groupId>
+			<artifactId>ojdbc6</artifactId>
 			<version>11</version>
-		</dependency>
+		</dependency> 
 		<!-- MYsql驱动 -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -172,6 +176,12 @@
 			<version>2.5</version>
 		</dependency>
 		<!-- J2EE 5.0支持的JSP标准 -->
+		<!-- <dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope> 
+		</dependency> -->
 		<!-- JSTL标签需要的包 -->
          
 		<dependency>

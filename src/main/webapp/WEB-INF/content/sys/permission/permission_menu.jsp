@@ -36,9 +36,9 @@ var setting = {
 	};
 
 	function onClick(event, treeId, treeNode){
-		/* $("#jbsxBox").loadUrl("${base}/sys/department/department.action", {}, function(){
+		$("#jbsxBox").loadUrl("${actionPath}.action", {}, function(){
 		//	$("#jbsxBox").find("[layoutH]").layoutH();
-		}); */ 
+		});
 		$("input").eq(1).focus(function(){this.select();});
 		var input = $("input").serialize();
 		$().ajaxUrl({

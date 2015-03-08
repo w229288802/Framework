@@ -15,6 +15,10 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.util.ValueStack;
+import com.welge.framework.utils.JPAUtils;
+import com.welge.framework.vo.dwz.JsonResponse;
+import com.welge.framework.vo.dwz.JsonResponse.CallBackType;
+import com.welge.framework.vo.dwz.JsonResponse.StatusCode;
 
 public  class BaseStrutsAction<T,ID extends Serializable> extends ActionSupport implements ModelDriven<T> {
 	private static final long serialVersionUID = 1L;
@@ -27,7 +31,9 @@ public  class BaseStrutsAction<T,ID extends Serializable> extends ActionSupport 
 	//当前Action的相对路径
 	protected static final String REQUEST_ACTIONPATH = "actionPath";
 	
+	protected ID[] ids_ ;
 	protected ID[] ids ;
+	protected ID id;
 	private Logger logger ;
 	protected T entity;
 	protected Class<T> entityClass;
@@ -76,7 +82,14 @@ public  class BaseStrutsAction<T,ID extends Serializable> extends ActionSupport 
 			e.printStackTrace();
 		}
 	}
-	
+	protected String success(String msg){
+		JsonResponse jsonResponse = new JsonResponse();
+		jsonResponse.setCallbackType(CallBackType.CLOSE_CURRENT);
+		jsonResponse.setStatusCode(StatusCode.SUCCESS);
+		jsonResponse.setMessage(msg);
+		pushStack(jsonResponse);
+		return JSON;
+	}
 	protected HttpServletResponse getResponse(){
 		return ServletActionContext.getResponse();
 	}
@@ -108,7 +121,20 @@ public  class BaseStrutsAction<T,ID extends Serializable> extends ActionSupport 
 		return ids;
 	}
 
+	public ID getId(){
+		if(id==null){
+			return JPAUtils.getPrimaryKey(getModel());
+		}
+		return id;
+	}
 	public void setIds(ID[] ids) {
 		this.ids = ids;
+	}
+	public ID[] getIds_() {
+		return ids_;
+	}
+
+	public void setIds_(ID[] ids_) {
+		this.ids_ = ids_;
 	}
 }

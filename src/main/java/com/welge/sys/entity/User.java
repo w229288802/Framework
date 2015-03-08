@@ -19,7 +19,7 @@ public class User {
 	private String phone;
 	private String email;
 	private String status;
-	@Column(name="deparment_id")
+	@Column(name="department_id")
 	private String departmentId;
 	public String getId() {
 		return id;

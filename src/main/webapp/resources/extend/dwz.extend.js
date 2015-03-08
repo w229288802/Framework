@@ -31,6 +31,13 @@ var handlerAjax=function(jsonResponse){
 					 
 	return true;
 }
+DWZ.getPanel=function(){
+	if($.pdialog.getCurrent()==null||$.trim($.pdialog.getCurrent().css("display"))=="none"){
+		return navTab.getCurrentPanel();
+	}else{
+		return $.pdialog.getCurrent();
+	}
+}
 $.fn.ajaxUrl=function(op){
 			var $this = $(this);
 
@@ -103,27 +110,28 @@ DWZ.ajaxError=function(xhr, ajaxOptions, thrownError){
 		alert("Http status: " + xhr.status + " " + xhr.statusText + "\najaxOptions: " + ajaxOptions + "\nthrownError:"+thrownError + "\n" +xhr.responseText);
 	}
 };
-$.fn.table=function(data,columns,checkboxField,checkboxKey){
-		
-	checkboxField=checkboxField?checkboxField:'ids';
-	checkboxKey=checkboxKey?checkboxKey:'id';
+$.fn.table=function(op){
+	var checkboxKey=checkboxKey?op.id:'id';
+	var checkboxField=checkboxField?op.ids:'ids';
+	var pid=op&&op.pid;
 	var $grid = $(this);
 	var html = '<thead><tr>';
 	if(checkboxField){   
 		html+='<th width="25"><input class="checkboxCtrl"  group="'+checkboxField+'" type="checkbox"></th>';
 	}
-	$.each(columns,function(){
+	$.each(op.columns,function(){
 		html+="<th align='center'>"+this.name+"</th>";
 	});
 	html += '</tr></thead>';
 	html +='<tbody>';
-	$.each(data.rows,function(i){
+	$.each(op.data.rows,function(i){
 		var row = this;
+		var p= pid?this[pid]:'';
 		html+='<tr>';
 		if(checkboxField!=undefined){
  			html+='<td><input name="'+checkboxField+'" type="checkbox" value="'+(row[checkboxKey]?row[checkboxKey]:'')+'"></td>';
  		}
-		$.each(columns,function(){
+		$.each(op.columns,function(){
 			var align=this.align?' align="'+this.align+'"':'';
 			var title=this.title?' title="'+this.title+'"':'';
 			var val;
@@ -186,8 +194,8 @@ $.fn.bindDialog=function(){
 		});
 	});
 };
-$.fn.checkbox=function(){
-	var p = navTab.getCurrentPanel();
+$.fn.dwzCheckbox=function(){
+	var p = DWZ.getPanel();
 	$(this).checkboxCtrl(p);
 	var parent =$(this);
 	var name = parent.attr("group");
@@ -202,3 +210,4 @@ $.fn.checkbox=function(){
 		}
 	});
 };
+

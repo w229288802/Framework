@@ -2,7 +2,9 @@
 <%@ include file="/common/taglib.jsp" %>
 <script>
 var operation ={name:'操作',align:'center',formatter:function(val,index,row){
- 	return '<a class="add" target="dialog" href="${actionPath}!edit.action?id='+row.id+'"  mask="true"><span>修改</span></a>';
+	var opt = '<a class="add"  target="dialog" href="${actionPath}!edit.action?id='+row.id+'"  mask="true"><span>修改</span></a>&nbsp';
+	opt += '<a class="updae" width="800" height="480" target="dialog" href="${base}/sys/permission/permission.action?id='+row.id+'"  mask="true"><span>授权</span></a>';
+	return opt;
 }};
 var columns=[
  	        {field:'name',name:'角色名',align:'center'},

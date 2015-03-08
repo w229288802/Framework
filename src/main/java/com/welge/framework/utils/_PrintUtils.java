@@ -38,6 +38,10 @@ public class _PrintUtils {
 		}
 	}
 	
+	public static void println(Object obj){
+		println(obj, 0);
+	}
+	
 	public static void println(Object obj ,int child,String... fieldNames){
 		
 		try {

@@ -1,15 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ include file="/common/taglib.jsp" %>
-<link rel="stylesheet" href="${base}/resources/widget/treetable/css/jquery.treetable.theme.default.css" type="text/css">
-<link rel="stylesheet" href="${base}/resources/widget/treetable/css/jquery.treetable.css" type="text/css">
-<script type="text/javascript" src="${base}/common/demo/treetable/jquery.treetable.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-	//$("#example-advanced").treetable({ expandable: true });
-	//$("#ss").treetable({ expandable: true });
-	//$("#ss").jTable();
-});
-</script>
 
 <div class="pageContent">
 	<form method="post" onsubmit="return validateCallback(this,dialogAjaxDone);" class="pageForm required-validate" action="${actionPath}!save.action" >

@@ -28,7 +28,7 @@ function onClick(event, treeId, treeNode, clickFlag) {
 }
 
 $(document).ready(function(){
-	$().loadUrl(ctx+"/sys/menu/menu!listAjax.action",null,function(data){
+	$().loadUrl(ctx+"/sys/permission/permission!listAjax.action",null,function(data){
 		$.each(data,function(){
 			this.pId=this.pid; 
 			this.isParent=this.type=='F'?false:true;

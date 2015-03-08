@@ -3,6 +3,12 @@ package com.welge.framework.vo.dwz;
 
 
 public class JsonResponse {
+	public interface CallBackType{
+		String CLOSE_CURRENT="closeCurrent";
+	};
+	public interface StatusCode{
+		Integer SUCCESS=200;
+	}
 	private Integer statusCode ;
 	private String message;
 	private String navTabId;
